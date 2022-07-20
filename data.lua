@@ -3,10 +3,7 @@
 ---@param data table # The table of the data to be saved
 function love.filesystem.saveData(file, data)
 	if not love.filesystem.getInfo(file) then love.filesystem.write(file, "") end
-
-	for key, value in pairs(data) do
-		love.filesystem.append(file, key .. "=" .. value .. "\n")
-	end
+	for key, value in pairs(data) do love.filesystem.append(file, key .. "=" .. value .. "\n") end
 end
 
 ---Load data
