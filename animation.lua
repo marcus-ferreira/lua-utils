@@ -50,7 +50,6 @@ function love.graphics.newAnimation(spriteSheet, quadTable)
 	end
 
 	function animation:draw()
-		love.graphics.draw(spriteSheet, self.frames[self.currentFrame])
 	end
 
 	return animation
