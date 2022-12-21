@@ -1,0 +1,59 @@
+---Creates a sliced table
+---@param t table # The table to be sliced
+---@param first? number # The first index of the sliced table
+---@param last? number # The last index of the sliced table
+---@return table table # The sliced table
+function table.slice(t, first, last)
+	first = first or 1
+	last = last or #t
+
+	local sliced = {}
+	for i = first, last do
+		table.insert(sliced, t[i])
+	end
+	return sliced
+end
+
+---Return the first index with the given value (or nil if not found).
+---@param table table # The table to search
+---@param value any # The value to be searched
+---@return number | nil index # The index of the value
+function table.indexOf(table, value)
+	for i, v in ipairs(table) do
+		if v == value then
+			return i
+		end
+	end
+	return nil
+end
+
+---Serialize a table to a string
+---@param table table # The table to be serialized
+---@return string # The serialized string
+function table.serialize(table)
+	local serializedString = "{"
+
+	for k, v in pairs(table) do
+		serializedString = serializedString .. k .. "=" .. v .. ","
+	end
+	serializedString = string.sub(serializedString, 1, -2) .. "}"
+
+	return serializedString
+end
+
+---Unserialize a string to a table
+---@param string string # The string to be unserialized
+---@return table # The unserialize table
+function table.unserialize(string)
+	local unserializedTable = {}
+
+	for k, v in string.gmatch(string, "(%w+)=(%d+)") do
+		unserializedTable[k] = tonumber(v)
+	end
+
+	for k, v in string.gmatch(string, "(%w+)=(%a+)") do
+		unserializedTable[k] = v
+	end
+
+	return unserializedTable
+end
