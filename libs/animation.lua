@@ -1,3 +1,10 @@
+--[[
+	Animation library
+
+	Author: Marcus Ferreira
+	Version: 1.0
+]]--
+
 ---@class Animation
 Animation = {}
 
@@ -14,7 +21,6 @@ function Animation:new(frames, interval, loop)
 		loop = loop or false,
 		timer = 0,
 		currentFrame = 1,
-		isPlaying = false
 	}
 	setmetatable(animation, { __index = self })
 	return animation

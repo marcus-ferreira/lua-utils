@@ -1,7 +1,7 @@
 ---Creates a sliced table
 ---@param t table # The table to be sliced
----@param first? number # The first index of the sliced table
----@param last? number # The last index of the sliced table
+---@param first? number # The first index of the sliced table. Default is 1
+---@param last? number # The last index of the sliced table. Default is the last key
 ---@return table table # The sliced table
 function table.slice(t, first, last)
 	first = first or 1
@@ -56,4 +56,25 @@ function table.unserialize(string)
 	end
 
 	return unserializedTable
+end
+
+---Prints a Table content
+---@param t table
+function table.print(t)
+	local string = ""
+	local index = 1
+
+	for k, v in pairs(t) do
+		if type(v) == "number" then
+			string = string .. "[" .. index .. "]" .. " = " .. v .. "\n"
+			index = index + 1
+		elseif type(v) == "table" then
+			string = string .. "[" .. k .. "]" .. " = {\n"
+			table.print(v)
+		else
+			string = string .. k .. " = " .. v .. "\n"
+		end
+	end
+
+	print(string)
 end
