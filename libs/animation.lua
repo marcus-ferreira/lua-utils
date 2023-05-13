@@ -1,10 +1,3 @@
---[[
-	Animation library
-
-	Author: Marcus Ferreira
-	Version: 1.1
-]]--
-
 ---@class Grid
 Grid = {}
 
@@ -47,6 +40,7 @@ function Animation:new(grid, frames, interval, loop)
 	animation.interval = interval or 1
 	animation.loop = loop or false
 	animation.timer = 0
+	animation.isPlaying = true
 
 	setmetatable(animation, { __index = self })
 	return animation
@@ -58,21 +52,23 @@ function Animation:update(dt)
 	-- don't update if there's only 1 frame
 	if #self.frames == 1 then return end
 
-	-- increases timer over time
-	self.timer = self.timer + dt
+	if self.isPlaying then
+		-- increases timer over time
+		self.timer = self.timer + dt
 
-	-- change to next frame and reset timer
-	if self.timer > self.interval then
-		self.indexCurrentFrame = self.indexCurrentFrame + 1
-		self.timer = self.timer - self.interval
-	end
+		-- change to next frame and reset timer
+		if self.timer > self.interval then
+			self.indexCurrentFrame = self.indexCurrentFrame + 1
+			self.timer = self.timer - self.interval
+		end
 
-	-- go back to first frame
-	if self.indexCurrentFrame > #self.frames then
-		if self.loop then
-			self.indexCurrentFrame = 1
-		else
-			self.indexCurrentFrame = #self.frames
+		-- go back to first frame if is looping or stop
+		if self.indexCurrentFrame > #self.frames then
+			if self.loop then
+				self.indexCurrentFrame = 1
+			else
+				self.indexCurrentFrame = #self.frames
+			end
 		end
 	end
 end
@@ -99,6 +95,18 @@ function Animation:setLoop(boolean)
 	self.loop = boolean
 end
 
+---Set the animation to a specific frame.
+---@param frameNumber number # The index of the frame to go.
 function Animation:goToFrame(frameNumber)
 	self.indexCurrentFrame = frameNumber
+end
+
+---Plays current animation
+function Animation:play()
+	self.isPlaying = true
+end
+
+---Stops current animation
+function Animation:stop()
+	self.isPlaying = false
 end
