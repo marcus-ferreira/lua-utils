@@ -1,34 +1,34 @@
----@class RectangleCollider
-RectangleCollider = {}
+-- ---@class RectangleCollider
+-- RectangleCollider = {}
 
-function RectangleCollider:new(x, y, width, height)
-	---@class RectangleCollider
-	local rectangleCollider = {}
-	rectangleCollider.x = x
-	rectangleCollider.y = y
-	rectangleCollider.width = width
-	rectangleCollider.height = height
+-- function RectangleCollider:new(x, y, width, height)
+-- 	---@class RectangleCollider
+-- 	local rectangleCollider = {}
+-- 	rectangleCollider.x = x
+-- 	rectangleCollider.y = y
+-- 	rectangleCollider.width = width
+-- 	rectangleCollider.height = height
 
-	setmetatable(rectangleCollider, { __index = self })
-	return rectangleCollider
-end
+-- 	setmetatable(rectangleCollider, { __index = self })
+-- 	return rectangleCollider
+-- end
 
----Check if is colliding with another RectangleCollider.
----@param rectangleCollider RectangleCollider # The RectangleCollider to check.
----@return boolean # True if the RectangleColliders are colliding, false on contrary.
-function RectangleCollider:isColliding(x, y, rectangleCollider)
-	local x2 = x + self.width
-	local y2 = y + self.height
-	rectangleCollider.x2 = rectangleCollider.x + rectangleCollider.width
-	rectangleCollider.y2 = rectangleCollider.y + rectangleCollider.height
+-- ---Check if is colliding with another RectangleCollider.
+-- ---@param rectangleCollider RectangleCollider # The RectangleCollider to check.
+-- ---@return boolean # True if the RectangleColliders are colliding, false on contrary.
+-- function RectangleCollider:isColliding(x, y, rectangleCollider)
+-- 	local x2 = x + self.width
+-- 	local y2 = y + self.height
+-- 	rectangleCollider.x2 = rectangleCollider.x + rectangleCollider.width
+-- 	rectangleCollider.y2 = rectangleCollider.y + rectangleCollider.height
 
-	return x <= rectangleCollider.x2 and y <= rectangleCollider.y2 and
-		x2 >= rectangleCollider.x and y2 >= rectangleCollider.y
-end
+-- 	return x <= rectangleCollider.x2 and y <= rectangleCollider.y2 and
+-- 		x2 >= rectangleCollider.x and y2 >= rectangleCollider.y
+-- end
 
-function RectangleCollider:draw()
-	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
-end
+-- function RectangleCollider:draw()
+-- 	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+-- end
 
 -- ---@class CircleCollider
 -- CircleCollider = {}
