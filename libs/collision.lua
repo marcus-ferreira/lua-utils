@@ -79,6 +79,9 @@ function RectangleCollider:new(world, x, y, width, height, type)
 	rectangleCollider.body = love.physics.newBody(world, x, y, type or "static")
 	rectangleCollider.shape = love.physics.newRectangleShape(width, height)
 	rectangleCollider.fixture = love.physics.newFixture(rectangleCollider.body, rectangleCollider.shape)
+	
+	rectangleCollider.body:setFixedRotation(true)
+	rectangleCollider.fixture:setFriction(0)
 
 	setmetatable(rectangleCollider, { __index = self })
 	return rectangleCollider
@@ -104,6 +107,9 @@ function CircleCollider:new(world, x, y, radius, type)
 	circleCollider.body = love.physics.newBody(world, x, y, type or "static")
 	circleCollider.shape = love.physics.newCircleShape(radius)
 	circleCollider.fixture = love.physics.newFixture(circleCollider.body, circleCollider.shape)
+	
+	circleCollider.body:setFixedRotation(true)
+	circleCollider.fixture:setFriction(0)
 
 	setmetatable(circleCollider, { __index = self })
 	return circleCollider
