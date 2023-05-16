@@ -22,8 +22,32 @@ function RectangleCollider:new(world, x, y, width, height, type)
 	return rectangleCollider
 end
 
-function RectangleCollider:draw()
-	love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+---Draw the collider
+function RectangleCollider:draw() love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints())) end
+
+---Gets the width and height of the collider
+---@return number width # The collider width
+---@return number height # The collider height
+function RectangleCollider:getSize()
+	local x1, y1, x2, _, _, _, _, y4 = player.body:getWorldPoints(player.shape:getPoints())
+	local width = x2 - x1
+	local height = y4 - y1
+
+	return width, height
+end
+
+---Gets the collider width
+---@return number width
+function RectangleCollider:getWidth()
+	local width, _ = self:getSize()
+	return width
+end
+
+---Gets the collider height
+---@return number height
+function RectangleCollider:getHeight()
+	local _, height = self:getSize()
+	return height
 end
 
 ---@class CircleCollider
