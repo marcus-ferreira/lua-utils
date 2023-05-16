@@ -90,24 +90,24 @@ end
 ---@return love.Quad # The frame of the animation
 function Animation:getCurrentFrame() return self.frames[self.indexCurrentFrame] end
 
+---Set the animation to a specific frame.
+---@param frameNumber number # The index of the frame to go.
+function Animation:goToFrame(frameNumber) self.indexCurrentFrame = frameNumber end
+
 ---Checks if the animation has ended
 ---@return boolean # True if the last frame of the animation is playing
 function Animation:isEnded() return self.indexCurrentFrame == #self.frames end
 
----Sets the animation to loop or not
----@param boolean boolean # True to turn loop on, false to turn off
-function Animation:setLoop(boolean) self.loop = boolean end
+---Plays current animation
+function Animation:play() self.isPlaying = true end
 
 ---Sets the animation flipped status
 ---@param boolean boolean
 function Animation:setFlipped(boolean) self.isFlipped = boolean end
 
----Set the animation to a specific frame.
----@param frameNumber number # The index of the frame to go.
-function Animation:goToFrame(frameNumber) self.indexCurrentFrame = frameNumber end
-
----Plays current animation
-function Animation:play() self.isPlaying = true end
+---Sets the animation to loop or not
+---@param boolean boolean # True to turn loop on, false to turn off
+function Animation:setLoop(boolean) self.loop = boolean end
 
 ---Stops current animation
 function Animation:stop() self.isPlaying = false end
