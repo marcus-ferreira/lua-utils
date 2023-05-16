@@ -33,29 +33,23 @@ end
 function table.serialize(table)
 	local serializedString = "{"
 
-	for k, v in pairs(table) do
-		serializedString = serializedString .. k .. "=" .. v .. ","
-	end
+	for k, v in pairs(table) do serializedString = serializedString .. k .. "=" .. v .. "," end
+
 	serializedString = string.sub(serializedString, 1, -2) .. "}"
 
 	return serializedString
 end
 
----Unserialize a string to a table
----@param string string # The string to be unserialized
----@return table # The unserialize table
-function table.unserialize(string)
-	local unserializedTable = {}
+---deserialize a string to a table
+---@param string string # The string to be deserialized
+---@return table # The deserialize table
+function table.deserialize(string)
+	local deserializedTable = {}
 
-	for k, v in string.gmatch(string, "(%w+)=(%d+)") do
-		unserializedTable[k] = tonumber(v)
-	end
+	for k, v in string.gmatch(string, "(%w+)=(%d+)") do deserializedTable[k] = tonumber(v) end
+	for k, v in string.gmatch(string, "(%w+)=(%a+)") do deserializedTable[k] = v end
 
-	for k, v in string.gmatch(string, "(%w+)=(%a+)") do
-		unserializedTable[k] = v
-	end
-
-	return unserializedTable
+	return deserializedTable
 end
 
 ---Prints a Table content
