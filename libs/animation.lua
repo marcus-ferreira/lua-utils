@@ -10,10 +10,12 @@ function Grid:new(image, tileWidth, tileHeight)
 	---@class Grid
 	local grid = {}
 	grid.image = image
+	grid.tileWidth = tileWidth
+	grid.tileHeight = tileHeight
 
-	for y = 0, grid.image:getHeight() - 1, tileHeight do
-		for x = 0, grid.image:getWidth() - 1, tileWidth do
-			local tile = love.graphics.newQuad(x, y, tileWidth, tileHeight, grid.image:getDimensions())
+	for y = 0, image:getHeight() - 1, tileHeight do
+		for x = 0, image:getWidth() - 1, tileWidth do
+			local tile = love.graphics.newQuad(x, y, tileWidth, tileHeight, image:getDimensions())
 			table.insert(grid, tile)
 		end
 	end
@@ -41,6 +43,7 @@ function Animation:new(grid, frames, interval, loop)
 	animation.loop = loop or false
 	animation.timer = 0
 	animation.isPlaying = true
+	animation.isFlipped = false
 
 	setmetatable(animation, { __index = self })
 	return animation
@@ -73,40 +76,38 @@ function Animation:update(dt)
 	end
 end
 
+---Draws the animation
+---@param x number # The X position of the animation.
+---@param y number # The Y position of the animation.
 function Animation:draw(x, y)
-	love.graphics.draw(self.grid.image, self.grid[self:getCurrentFrame()], x, y)
+	love.graphics.draw(
+		self.grid.image, self.grid[self:getCurrentFrame()],
+		x, y, 0, self.isFlipped and -1 or 1, 1,
+		self.grid.tileWidth / 2, self.grid.tileHeight / 2)
 end
 
 ---Gets the current frame of the animation (not the index)
 ---@return love.Quad # The frame of the animation
-function Animation:getCurrentFrame()
-	return self.frames[self.indexCurrentFrame]
-end
+function Animation:getCurrentFrame() return self.frames[self.indexCurrentFrame] end
 
 ---Checks if the animation has ended
 ---@return boolean # True if the last frame of the animation is playing
-function Animation:isEnded()
-	return self.indexCurrentFrame == #self.frames
-end
+function Animation:isEnded() return self.indexCurrentFrame == #self.frames end
 
 ---Sets the animation to loop or not
 ---@param boolean boolean # True to turn loop on, false to turn off
-function Animation:setLoop(boolean)
-	self.loop = boolean
-end
+function Animation:setLoop(boolean) self.loop = boolean end
+
+---Sets the animation flipped status
+---@param boolean boolean
+function Animation:setFlipped(boolean) self.isFlipped = boolean end
 
 ---Set the animation to a specific frame.
 ---@param frameNumber number # The index of the frame to go.
-function Animation:goToFrame(frameNumber)
-	self.indexCurrentFrame = frameNumber
-end
+function Animation:goToFrame(frameNumber) self.indexCurrentFrame = frameNumber end
 
 ---Plays current animation
-function Animation:play()
-	self.isPlaying = true
-end
+function Animation:play() self.isPlaying = true end
 
 ---Stops current animation
-function Animation:stop()
-	self.isPlaying = false
-end
+function Animation:stop() self.isPlaying = false end
