@@ -29,7 +29,7 @@ function RectangleCollider:draw() love.graphics.polygon("line", self.body:getWor
 ---@return number width # The collider width
 ---@return number height # The collider height
 function RectangleCollider:getSize()
-	local x1, y1, x2, _, _, _, _, y4 = player.body:getWorldPoints(player.shape:getPoints())
+	local x1, y1, x2, _, _, _, _, y4 = self.body:getWorldPoints(self.shape:getPoints())
 	local width = x2 - x1
 	local height = y4 - y1
 
