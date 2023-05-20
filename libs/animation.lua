@@ -2,20 +2,24 @@
 Grid = {}
 
 ---Creates a new Grid, a list of Quads.
----@param image love.Image
 ---@param tileWidth number
 ---@param tileHeight number
+---@param imageWidth number
+---@param imageHeight number
+---@param left? number
+---@param top? number
 ---@return Grid
-function Grid:new(image, tileWidth, tileHeight)
+function Grid:new(tileWidth, tileHeight, imageWidth, imageHeight, left, top)
 	---@class Grid
 	local grid = {}
-	grid.image = image
 	grid.tileWidth = tileWidth
 	grid.tileHeight = tileHeight
+	grid.imageWidth = imageWidth
+	grid.imageHeight = imageHeight
 
-	for y = 0, image:getHeight() - 1, tileHeight do
-		for x = 0, image:getWidth() - 1, tileWidth do
-			local tile = love.graphics.newQuad(x, y, tileWidth, tileHeight, image:getDimensions())
+	for y = top or 0, grid.imageHeight - 1, grid.tileHeight do
+		for x = left or 0, grid.imageWidth - 1, grid.tileWidth do
+			local tile = love.graphics.newQuad(x, y, grid.tileWidth, grid.tileHeight, grid.imageWidth, grid.imageHeight)
 			table.insert(grid, tile)
 		end
 	end
@@ -28,14 +32,16 @@ end
 Animation = {}
 
 ---Creates a new Animation.
----@param grid Grid # The Grid to be used.
+---@param image love.Image # The image to be used.
+---@param grid Grid # The grid table to be used.
 ---@param frames table # A table of the numbers of the frames in a quad list.
 ---@param interval? number # The interval between frame quads, in seconds. The default value is the "interval" value of the class.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. The default value is the "loop" value of the class.
 ---@return Animation animation # The new Animation object
-function Animation:new(grid, frames, interval, loop)
+function Animation:new(image, grid, frames, interval, loop)
 	---@class Animation
 	local animation = {}
+	animation.image = image
 	animation.grid = grid
 	animation.frames = frames
 	animation.indexCurrentFrame = 1
@@ -81,7 +87,7 @@ end
 ---@param y number # The Y position of the animation.
 function Animation:draw(x, y)
 	love.graphics.draw(
-		self.grid.image, self.grid[self:getCurrentFrame()],
+		self.image, self.grid[self:getCurrentFrame()],
 		x, y, 0, self.isFlipped and -1 or 1, 1,
 		self.grid.tileWidth / 2, self.grid.tileHeight / 2)
 end
