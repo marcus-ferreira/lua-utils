@@ -24,10 +24,10 @@ function color.hexToRGB(hex)
 end
 
 ---Converts HSL to RGB. (input and output range: 0 - 1)
----@param h number
----@param s number
----@param l number
----@param a number
+---@param h number # Hue.
+---@param s number # Saturation.
+---@param l number # Lightness.
+---@param a number # Alpha.
 ---@return number red
 ---@return number green
 ---@return number blue
@@ -57,9 +57,9 @@ function color.HSLToRGB(h, s, l, a)
 end
 
 ---Converts HSV to RGB. (input and output range: 0 - 1)
----@param h number
----@param s number
----@param v number
+---@param h number # Hue.
+---@param s number # Saturation.
+---@param v number # Value.
 ---@return number red
 ---@return number green
 ---@return number blue
