@@ -27,6 +27,10 @@ function table.indexOf(table, value)
 	return nil
 end
 
+--[[
+	Version: 0.1.0
+]]
+
 ---Serialize a table to a string
 ---@param table table # The table to be serialized
 ---@return string # The serialized string

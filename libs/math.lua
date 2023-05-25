@@ -1,3 +1,7 @@
+--[[
+	Version: 0.1.0
+]]
+
 ---Returns the angle between two vectors assuming the same origin.
 ---@param x1 number
 ---@param y1 number

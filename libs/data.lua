@@ -1,3 +1,7 @@
+--[[
+	Version: 0.1.0
+]]
+
 require("libs.table")
 
 ---@class data
