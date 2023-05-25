@@ -1,11 +1,9 @@
 ---@class color
 color = {}
 
----Converts a hex (given without '#') value to RGB.
+---Converts a hex (given without '#') value to RGB. (output range: 0 - 1)
 ---@param hex string
----@return number red
----@return number green
----@return number blue
+---@return table RGB
 function color.hexToRGB(hex)
 	local function convertHex(digit)
 		return digit
@@ -17,10 +15,11 @@ function color.hexToRGB(hex)
 			:gsub("f", 15)
 	end
 
-	return
-		convertHex(hex:sub(1, 1)) * 16 + convertHex(hex:sub(2, 2)),
-		convertHex(hex:sub(3, 3)) * 16 + convertHex(hex:sub(4, 4)),
-		convertHex(hex:sub(5, 5)) * 16 + convertHex(hex:sub(6, 6))
+	return {
+		(convertHex(hex:sub(1, 1)) * 16 + convertHex(hex:sub(2, 2))) / 255,
+		(convertHex(hex:sub(3, 3)) * 16 + convertHex(hex:sub(4, 4))) / 255,
+		(convertHex(hex:sub(5, 5)) * 16 + convertHex(hex:sub(6, 6))) / 255
+	}
 end
 
 ---Converts HSL to RGB. (input and output range: 0 - 1)
@@ -28,12 +27,9 @@ end
 ---@param s number # Saturation.
 ---@param l number # Lightness.
 ---@param a number # Alpha.
----@return number red
----@return number green
----@return number blue
----@return number alpha
+---@return table RGBA
 function color.HSLToRGB(h, s, l, a)
-	if s <= 0 then return l, l, l, a end
+	if s <= 0 then return { l, l, l, a } end
 
 	h, s, l = h * 6, s, l
 	local c = (1 - math.abs(2 * l - 1)) * s
@@ -53,18 +49,16 @@ function color.HSLToRGB(h, s, l, a)
 		r, g, b = c, 0, x
 	end
 
-	return r + m, g + m, b + m, a
+	return { r + m, g + m, b + m, a }
 end
 
 ---Converts HSV to RGB. (input and output range: 0 - 1)
 ---@param h number # Hue.
 ---@param s number # Saturation.
 ---@param v number # Value.
----@return number red
----@return number green
----@return number blue
+---@return table RGB
 function color.HSVToRGB(h, s, v)
-	if s <= 0 then return v, v, v end
+	if s <= 0 then return { v, v, v } end
 
 	h = h * 6
 	local c = v * s
@@ -84,5 +78,5 @@ function color.HSVToRGB(h, s, v)
 		r, g, b = c, 0, x
 	end
 
-	return r + m, g + m, b + m
+	return { r + m, g + m, b + m }
 end
