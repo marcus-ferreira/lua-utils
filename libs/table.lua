@@ -1,3 +1,7 @@
+--[[
+	Version: 0.1.0
+]]
+
 ---Creates a sliced table
 ---@param t table # The table to be sliced
 ---@param first? number # The first index of the sliced table. Default is 1
@@ -26,10 +30,6 @@ function table.indexOf(table, value)
 	end
 	return nil
 end
-
---[[
-	Version: 0.1.0
-]]
 
 ---Serialize a table to a string
 ---@param table table # The table to be serialized
