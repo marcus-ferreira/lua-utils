@@ -38,9 +38,7 @@ function RectangleCollider.new(world, x, y, width, height, type)
 end
 
 ---Draws the rectangle collider
-function RectangleCollider:draw()
-	love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
-end
+function RectangleCollider:draw() love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints())) end
 
 ---Gets the width and height of the collider
 ---@return number width # The collider width
@@ -88,6 +86,4 @@ function CircleCollider.new(world, x, y, radius, type)
 end
 
 ---Draws the circle collider
-function CircleCollider:draw()
-	love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius())
-end
+function CircleCollider:draw() love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius()) end
