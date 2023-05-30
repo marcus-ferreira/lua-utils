@@ -1,9 +1,9 @@
 --[[
-	Version: 0.1.0
+	Version: 0.1.1
 ]]
 
 ---@class collision
-collision = {}
+local collision = {}
 
 ---Check if two rectangles is colliding.
 ---@param ax1 number # The X1 position of the first rectangle.
@@ -30,3 +30,5 @@ end
 function collision.isCircleColliding(ax, ay, ar, bx, by, br)
 	return ((bx - ax) ^ 2 + (by - ay) ^ 2) ^ 0.5 < ar + br
 end
+
+return collision
