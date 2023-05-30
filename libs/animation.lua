@@ -1,5 +1,5 @@
 --[[
-	Version: 0.1.1
+	Version: 0.1.2
 ]]
 
 ---@class Grid
@@ -13,10 +13,10 @@ Animation.__index = Animation
 ---Creates a new Grid, a list of Quads.
 ---@param tileWidth number
 ---@param tileHeight number
----@param left? number
----@param top? number
----@param offsetX? number
----@param offsetY? number
+---@param left? number # Default = 0.
+---@param top? number # Default = 0.
+---@param offsetX? number # Default = 0.
+---@param offsetY? number # Default = 0.
 ---@return Grid
 function Grid.new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, offsetX, offsetY)
 	---@class Grid
@@ -24,8 +24,13 @@ function Grid.new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, off
 	grid.tileWidth = tileWidth
 	grid.tileHeight = tileHeight
 
-	for y = top or 0, imageHeight - 1, grid.tileHeight + (offsetY or 0) do
-		for x = left or 0, imageWidth - 1, grid.tileWidth + (offsetX + 0) do
+	left = left or 0
+	top = top or 0
+	offsetX = offsetX or 0
+	offsetY = offsetY or 0
+
+	for y = top, imageHeight - 1, grid.tileHeight + offsetY do
+		for x = left, imageWidth - 1, grid.tileWidth + offsetX do
 			local tile = love.graphics.newQuad(x, y, grid.tileWidth, grid.tileHeight, imageWidth, imageHeight)
 			table.insert(grid, tile)
 		end
@@ -39,8 +44,8 @@ end
 ---@param image love.Image # The image to be used.
 ---@param grid Grid # The grid table to be used.
 ---@param frames table # A table of the numbers of the frames in a quad list.
----@param interval? number # The interval between frame quads, in seconds. The default value is the "interval" value of the class.
----@param loop? boolean # True if the animation should be looped or false if contrary. The default value is the "loop" value of the class.
+---@param interval? number # The interval between frame quads, in seconds. Default = 1.
+---@param loop? boolean # True if the animation should be looped or false if contrary. Default = true.
 ---@return Animation animation # The new Animation object
 function Animation.new(image, grid, frames, interval, loop)
 	---@class Animation
@@ -50,7 +55,7 @@ function Animation.new(image, grid, frames, interval, loop)
 	animation.frames = frames
 	animation.indexCurrentFrame = 1
 	animation.interval = interval or 1
-	animation.loop = loop or false
+	animation.loop = loop or true
 	animation.timer = 0
 	animation.isPlaying = true
 	animation.isFlipped = false
