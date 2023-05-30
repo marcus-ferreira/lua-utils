@@ -1,39 +1,39 @@
 --[[
-	Version: 0.1.0
+	Version: 0.1.1
 ]]
 
 ---@class Grid
 Grid = {}
+Grid.__index = Grid
+
+---@class Animation
+Animation = {}
+Animation.__index = Animation
 
 ---Creates a new Grid, a list of Quads.
 ---@param tileWidth number
 ---@param tileHeight number
----@param imageWidth number
----@param imageHeight number
 ---@param left? number
 ---@param top? number
+---@param offsetX? number
+---@param offsetY? number
 ---@return Grid
-function Grid:new(tileWidth, tileHeight, imageWidth, imageHeight, left, top)
+function Grid.new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, offsetX, offsetY)
 	---@class Grid
 	local grid = {}
 	grid.tileWidth = tileWidth
 	grid.tileHeight = tileHeight
-	grid.imageWidth = imageWidth
-	grid.imageHeight = imageHeight
 
-	for y = top or 0, grid.imageHeight - 1, grid.tileHeight do
-		for x = left or 0, grid.imageWidth - 1, grid.tileWidth do
-			local tile = love.graphics.newQuad(x, y, grid.tileWidth, grid.tileHeight, grid.imageWidth, grid.imageHeight)
+	for y = top or 0, imageHeight - 1, grid.tileHeight + (offsetY or 0) do
+		for x = left or 0, imageWidth - 1, grid.tileWidth + (offsetX + 0) do
+			local tile = love.graphics.newQuad(x, y, grid.tileWidth, grid.tileHeight, imageWidth, imageHeight)
 			table.insert(grid, tile)
 		end
 	end
 
-	setmetatable(grid, { __index = self })
+	setmetatable(grid, Grid)
 	return grid
 end
-
----@class Animation
-Animation = {}
 
 ---Creates a new Animation.
 ---@param image love.Image # The image to be used.
@@ -42,7 +42,7 @@ Animation = {}
 ---@param interval? number # The interval between frame quads, in seconds. The default value is the "interval" value of the class.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. The default value is the "loop" value of the class.
 ---@return Animation animation # The new Animation object
-function Animation:new(image, grid, frames, interval, loop)
+function Animation.new(image, grid, frames, interval, loop)
 	---@class Animation
 	local animation = {}
 	animation.image = image
@@ -55,7 +55,7 @@ function Animation:new(image, grid, frames, interval, loop)
 	animation.isPlaying = true
 	animation.isFlipped = false
 
-	setmetatable(animation, { __index = self })
+	setmetatable(animation, Animation)
 	return animation
 end
 
@@ -91,9 +91,16 @@ end
 ---@param y number # The Y position of the animation.
 function Animation:draw(x, y)
 	love.graphics.draw(
-		self.image, self.grid[self:getCurrentFrame()],
-		x, y, 0, self.isFlipped and -1 or 1, 1,
-		self.grid.tileWidth / 2, self.grid.tileHeight / 2)
+		self.image,                  -- image
+		self.grid[self:getCurrentFrame()], -- quad
+		x,                           -- x
+		y,                           -- y
+		0,                           -- rotation
+		self.isFlipped and -1 or 1,  -- scaleX
+		1,                           -- scaleY
+		self.grid.tileWidth / 2,     -- originX
+		self.grid.tileHeight / 2     -- originY
+	)
 end
 
 ---Gets the current frame of the animation (not the index)
