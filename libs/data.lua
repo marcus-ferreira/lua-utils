@@ -1,18 +1,27 @@
 --[[
-	Version: 0.1.0
+	Version: 0.1.1
 ]]
 
-require("libs.table")
-
 ---@class data
-data = {}
+local data = {}
 
 function data.save(fileName, gameData)
-	love.filesystem.write(fileName, table.serialize(gameData))
+	local serializedString = "{"
+	for k, v in pairs(gameData) do serializedString = serializedString .. k .. "=" .. v .. "," end
+	serializedString = string.sub(serializedString, 1, -2) .. "}"
+
+	love.filesystem.write(fileName, serializedString)
 end
 
 function data.load(fileName)
 	local fileString = love.filesystem.read(fileName)
 	if fileString == nil then return end
-	return table.deserialize(fileString)
+
+	local deserializedTable = {}
+	for k, v in string.gmatch(fileString, "(%w+)=(%d+)") do deserializedTable[k] = tonumber(v) end
+	for k, v in string.gmatch(fileString, "(%w+)=(%a+)") do deserializedTable[k] = v end
+
+	return deserializedTable
 end
+
+return data

@@ -1,9 +1,9 @@
 --[[
-	Version: 0.1.0
+	Version: 0.1.1
 ]]
 
 ---@class color
-color = {}
+local color = {}
 
 ---Converts a hex (given without '#') value to RGB. (output range: 0 - 1)
 ---@param hex string
@@ -84,3 +84,5 @@ function color.HSVToRGB(h, s, v)
 
 	return { r + m, g + m, b + m }
 end
+
+return color
