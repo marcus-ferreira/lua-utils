@@ -80,3 +80,9 @@ function Circle:isColliding(object)
 	end
 	return false
 end
+
+---Draws the Rectangle.
+function Rectangle:draw() love.graphics.rectangle("line", self.x, self.y, self.width, self.height) end
+
+---Draws the Circle.
+function Circle:draw() love.graphics.circle("line", self.x, self.y, self.radius) end
