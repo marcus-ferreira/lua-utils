@@ -3,7 +3,7 @@
 ]]
 
 ---@class collision
-local collision = {}
+collision = {}
 
 ---Check if two rectangles is colliding.
 ---@param ax1 number # The X1 position of the first rectangle.
@@ -16,7 +16,7 @@ local collision = {}
 ---@param by2 number # The Y2 position of the second rectangle.
 ---@return boolean
 function collision.isRectangleColliding(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2)
-	return ax1 < bx2 and ay1 < by2 and ax2 > bx1 and ay2 < by1
+	return ax1 <= bx2 and ay1 <= by2 and ax2 >= bx1 and ay2 >= by1
 end
 
 ---Check if two circles is colliding.
@@ -28,7 +28,20 @@ end
 ---@param br number # The radius position of the second circle.
 ---@return boolean
 function collision.isCircleColliding(ax, ay, ar, bx, by, br)
-	return ((bx - ax) ^ 2 + (by - ay) ^ 2) ^ 0.5 < ar + br
+	return ((bx - ax) ^ 2 + (by - ay) ^ 2) ^ 0.5 <= ar + br
 end
 
-return collision
+---Checks if a rectangle is colliding with a circle.
+---@param ax1 number # The X1 position of the rectangle.
+---@param ay1 number # The Y1 position of the rectangle.
+---@param ax2 number # The X2 position of the rectangle.
+---@param ay2 number # The Y2 position of the rectangle.
+---@param bx number # The X position of the circle.
+---@param by number # The Y position of the circle.
+---@param br number # The radius of the circle.
+---@return boolean
+function collision.isRectangleCircleColliding(ax1, ay1, ax2, ay2, bx, by, br)
+	local dx = bx - math.max(ax1, math.min(bx, ax1 + (ax2 - ax1)))
+	local dy = by - math.max(ay1, math.min(by, ay1 + (ay2 - ay1)))
+	return math.sqrt(dx ^ 2 + dy ^ 2) <= br
+end
