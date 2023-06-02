@@ -65,19 +65,6 @@ function RectangleCollider:getHeight()
 	return height
 end
 
----Gets the collider position.
----@return number x
----@return number y
-function RectangleCollider:getPosition() return self.body:getPosition() end
-
----Gets the collider X position.
----@return number x
-function RectangleCollider:getX() return self.body:getX() end
-
----Gets the collider Y position.
----@return number y
-function RectangleCollider:getY() return self.body:getY() end
-
 ---Creates a new CircleCollider.
 ---@param world love.World
 ---@param x number
@@ -100,20 +87,3 @@ end
 
 ---Draws the circle collider.
 function CircleCollider:draw() love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius()) end
-
----Gets the collider position.
----@return number x
----@return number y
-function CircleCollider:getPosition() return self.body:getPosition() end
-
----Gets the collider radius.
----@return number radius
-function CircleCollider:getRadius() return self.shape:getRadius() end
-
----Gets the collider X position.
----@return number x
-function CircleCollider:getX() return self.body:getX() end
-
----Gets the collider Y position.
----@return number y
-function CircleCollider:getY() return self.body:getY() end
