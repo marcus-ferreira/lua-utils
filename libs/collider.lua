@@ -1,5 +1,5 @@
 --[[
-	Version: 0.1.1
+	Version: 0.1.2
 ]]
 
 ---@class Collider
@@ -16,7 +16,7 @@ CircleCollider = {}
 CircleCollider.__index = CircleCollider
 setmetatable(CircleCollider, Collider)
 
----Creates a new RectangleCollider
+---Creates a new RectangleCollider.
 ---@param world love.World
 ---@param x number
 ---@param y number
@@ -37,12 +37,12 @@ function RectangleCollider.new(world, x, y, width, height, type)
 	return rectangleCollider
 end
 
----Draws the rectangle collider
+---Draws the rectangle collider.
 function RectangleCollider:draw() love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints())) end
 
----Gets the width and height of the collider
----@return number width # The collider width
----@return number height # The collider height
+---Gets the width and height of the collider.
+---@return number width # The collider width.
+---@return number height # The collider height.
 function RectangleCollider:getSize()
 	local x1, y1, x2, _, _, _, _, y4 = self.body:getWorldPoints(self.shape:getPoints())
 	local width = x2 - x1
@@ -51,21 +51,34 @@ function RectangleCollider:getSize()
 	return width, height
 end
 
----Gets the collider width
+---Gets the collider width.
 ---@return number width
 function RectangleCollider:getWidth()
 	local width, _ = self:getSize()
 	return width
 end
 
----Gets the collider height
+---Gets the collider height.
 ---@return number height
 function RectangleCollider:getHeight()
 	local _, height = self:getSize()
 	return height
 end
 
----Creates a new CircleCollider
+---Gets the collider position.
+---@return number x
+---@return number y
+function RectangleCollider:getPosition() return self.body:getPosition() end
+
+---Gets the collider X position.
+---@return number x
+function RectangleCollider:getX() return self.body:getX() end
+
+---Gets the collider Y position.
+---@return number y
+function RectangleCollider:getY() return self.body:getY() end
+
+---Creates a new CircleCollider.
 ---@param world love.World
 ---@param x number
 ---@param y number
@@ -85,5 +98,22 @@ function CircleCollider.new(world, x, y, radius, type)
 	return circleCollider
 end
 
----Draws the circle collider
+---Draws the circle collider.
 function CircleCollider:draw() love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius()) end
+
+---Gets the collider position.
+---@return number x
+---@return number y
+function CircleCollider:getPosition() return self.body:getPosition() end
+
+---Gets the collider radius.
+---@return number radius
+function CircleCollider:getRadius() return self.shape:getRadius() end
+
+---Gets the collider X position.
+---@return number x
+function CircleCollider:getX() return self.body:getX() end
+
+---Gets the collider Y position.
+---@return number y
+function CircleCollider:getY() return self.body:getY() end
