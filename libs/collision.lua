@@ -1,47 +1,82 @@
 --[[
-	Version: 0.1.1
+	Version: 0.1.2
 ]]
 
----@class collision
-collision = {}
+---@class Rectangle
+Rectangle = {}
+Rectangle.__index = Rectangle
 
----Check if two rectangles is colliding.
----@param ax1 number # The X1 position of the first rectangle.
----@param ay1 number # The Y1 position of the first rectangle.
----@param ax2 number # The X2 position of the first rectangle.
----@param ay2 number # The Y2 position of the first rectangle.
----@param bx1 number # The X1 position of the second rectangle.
----@param by1 number # The Y1 position of the second rectangle.
----@param bx2 number # The X2 position of the second rectangle.
----@param by2 number # The Y2 position of the second rectangle.
----@return boolean
-function collision.isRectangleColliding(ax1, ay1, ax2, ay2, bx1, by1, bx2, by2)
-	return ax1 <= bx2 and ay1 <= by2 and ax2 >= bx1 and ay2 >= by1
+---@class Circle
+Circle = {}
+Circle.__index = Circle
+
+---Creates a new Rectangle.
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+---@return Rectangle
+function Rectangle.new(x, y, width, height)
+	---@class Rectangle
+	local rectangle = {}
+	rectangle.x = x
+	rectangle.y = y
+	rectangle.width = width
+	rectangle.height = height
+
+	setmetatable(rectangle, Rectangle)
+	return rectangle
 end
 
----Check if two circles is colliding.
----@param ax number # The X position of the first circle.
----@param ay number # The Y position of the first circle.
----@param ar number # The radius position of the first circle.
----@param bx number # The X position of the second circle.
----@param by number # The Y position of the second circle.
----@param br number # The radius position of the second circle.
----@return boolean
-function collision.isCircleColliding(ax, ay, ar, bx, by, br)
-	return ((bx - ax) ^ 2 + (by - ay) ^ 2) ^ 0.5 <= ar + br
+---Creates a new Circle.
+---@param x number
+---@param y number
+---@param radius number
+---@return Circle
+function Circle.new(x, y, radius)
+	---@class Circle
+	local circle = {}
+	circle.x = x
+	circle.y = y
+	circle.radius = radius
+
+	setmetatable(circle, Circle)
+	return circle
 end
 
----Checks if a rectangle is colliding with a circle.
----@param ax1 number # The X1 position of the rectangle.
----@param ay1 number # The Y1 position of the rectangle.
----@param ax2 number # The X2 position of the rectangle.
----@param ay2 number # The Y2 position of the rectangle.
----@param bx number # The X position of the circle.
----@param by number # The Y position of the circle.
----@param br number # The radius of the circle.
+---Checks if the Rectangle is colliding with other object.
+---@param object Rectangle | Circle
 ---@return boolean
-function collision.isRectangleCircleColliding(ax1, ay1, ax2, ay2, bx, by, br)
-	local dx = bx - math.max(ax1, math.min(bx, ax1 + (ax2 - ax1)))
-	local dy = by - math.max(ay1, math.min(by, ay1 + (ay2 - ay1)))
-	return math.sqrt(dx ^ 2 + dy ^ 2) <= br
+function Rectangle:isColliding(object)
+	local class = getmetatable(object)
+	assert(class == Rectangle or class == Circle, "Param must be a Rectangle or Circle.")
+
+	if class == Rectangle then
+		return self.x <= object.x + object.width and
+			self.y <= object.y + object.height and
+			self.x + self.width >= object.x and
+			self.y + self.height >= object.y
+	elseif class == Circle then
+		local dx = object.x - math.max(self.x, math.min(object.x, self.x + self.width))
+		local dy = object.y - math.max(self.y, math.min(object.y, self.y + self.height))
+		return math.sqrt(dx ^ 2 + dy ^ 2) <= object.radius
+	end
+	return false
+end
+
+---Checks if the Circle is colliding with other object.
+---@param object Rectangle | Circle
+---@return boolean
+function Circle:isColliding(object)
+	local class = getmetatable(object)
+	assert(class == Rectangle or class == Circle, "Param must be a Rectangle or Circle.")
+
+	if class == Rectangle then
+		local dx = self.x - math.max(object.x, math.min(self.x, object.x + object.width))
+		local dy = self.y - math.max(object.y, math.min(self.y, object.y + object.height))
+		return math.sqrt(dx ^ 2 + dy ^ 2) <= self.radius
+	elseif class == Circle then
+		return ((object.x - self.x) ^ 2 + (object.y - self.y) ^ 2) ^ 0.5 <= self.radius + object.radius
+	end
+	return false
 end
