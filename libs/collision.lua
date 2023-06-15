@@ -53,7 +53,7 @@ function Rectangle:isColliding(object, x, y)
 	local class = getmetatable(object)
 	x = x or 0
 	y = y or 0
-	assert(class == Rectangle or class == Circle, "Param must be a Rectangle or Circle.")
+	assert(class == Rectangle or class == Circle, "Object must be a Rectangle or Circle.")
 
 	if class == Rectangle then
 		return self.x + x <= object.x + object.width and
