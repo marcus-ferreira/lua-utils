@@ -1,20 +1,14 @@
 --[[
-	Version: 0.1.3
+	Version: 0.1.4
 ]]
 
----@class Collider
-Collider = {}
-Collider.__index = Collider
-
----@class RectangleCollider : Collider
+---@class RectangleCollider
 RectangleCollider = {}
 RectangleCollider.__index = RectangleCollider
-setmetatable(RectangleCollider, Collider)
 
----@class CircleCollider : Collider
+---@class CircleCollider
 CircleCollider = {}
 CircleCollider.__index = CircleCollider
-setmetatable(CircleCollider, Collider)
 
 ---Creates a new RectangleCollider.
 ---@param world love.World
@@ -24,7 +18,7 @@ setmetatable(CircleCollider, Collider)
 ---@param height number
 ---@param type? love.BodyType
 ---@return RectangleCollider
-function RectangleCollider.new(world, x, y, width, height, type)
+function love.physics.newRectangleCollider(world, x, y, width, height, type)
 	---@class RectangleCollider
 	local rectangleCollider = {}
 	rectangleCollider.body = love.physics.newBody(world, x, y, type or "static")
@@ -72,7 +66,7 @@ end
 ---@param radius number
 ---@param type? love.BodyType
 ---@return CircleCollider
-function CircleCollider.new(world, x, y, radius, type)
+function love.physics.newCircleCollider(world, x, y, radius, type)
 	---@class CircleCollider
 	local circleCollider = {}
 	circleCollider.body = love.physics.newBody(world, x, y, type or "static")
