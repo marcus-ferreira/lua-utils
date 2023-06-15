@@ -33,3 +33,9 @@ function Vector2.new(x, y)
 	setmetatable(vector2, Vector2)
 	return vector2
 end
+
+function Vector2:normalized()
+	local lvl = (self.x ^ 2 + self.y ^ 2) ^ 0.5
+	if lvl ~= 0 then return Vector2.new(self.x / lvl, self.y / lvl) end
+	return Vector2.new(0, 0)
+end
