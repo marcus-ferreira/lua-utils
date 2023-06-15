@@ -60,7 +60,7 @@ function math.clamp(low, n, high) return math.min(math.max(low, n), high) end
 ---@param x2 number
 ---@param y2 number
 ---@return number
-function math.dist(x1, y1, x2, y2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2) ^ 0.5 end
+function math.dist2(x1, y1, x2, y2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2) ^ 0.5 end
 
 ---Distance between two 3D points.
 ---@param x1 number
@@ -70,7 +70,7 @@ function math.dist(x1, y1, x2, y2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2) ^ 0.5 
 ---@param y2 number
 ---@param z2 number
 ---@return number
-function math.dist(x1, y1, z1, x2, y2, z2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2 + (z2 - z1) ^ 2) ^ 0.5 end
+function math.dist3(x1, y1, z1, x2, y2, z2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2 + (z2 - z1) ^ 2) ^ 0.5 end
 
 ---Checks if two lines intersect (or line segments if seg is true). Lines are given as four numbers (two coordinates).
 ---@param l1p1x number
@@ -83,8 +83,8 @@ function math.dist(x1, y1, z1, x2, y2, z2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2
 ---@param l2p2y number
 ---@param seg1? table
 ---@param seg2? table
----@return boolean
----@return string
+---@return boolean | number
+---@return string | number
 function math.findIntersect(l1p1x, l1p1y, l1p2x, l1p2y, l2p1x, l2p1y, l2p2x, l2p2y, seg1, seg2)
 	local a1, b1, a2, b2 = l1p2y - l1p1y, l1p1x - l1p2x, l2p2y - l2p1y, l2p1x - l2p2x
 	local c1, c2 = a1 * l1p1x + b1 * l1p1y, a2 * l2p1x + b2 * l2p1y
