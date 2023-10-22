@@ -1,14 +1,13 @@
 --[[
-	Version: 0.1.2
+	Version: 0.1.3
+	22/10/2023
 ]]
 
 ---@class Grid
 Grid = {}
-Grid.__index = Grid
 
 ---@class Animation
 Animation = {}
-Animation.__index = Animation
 
 ---Creates a new Grid, a list of Quads.
 ---@param tileWidth number
@@ -18,17 +17,16 @@ Animation.__index = Animation
 ---@param offsetX? number # Default = 0.
 ---@param offsetY? number # Default = 0.
 ---@return Grid
-function Grid.new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, offsetX, offsetY)
-	---@class Grid
-	local grid = {}
-	grid.tileWidth = tileWidth
-	grid.tileHeight = tileHeight
-
+function Grid:new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, offsetX, offsetY)
 	left = left or 0
 	top = top or 0
 	offsetX = offsetX or 0
 	offsetY = offsetY or 0
 
+	---@class Grid
+	local grid = {}
+	grid.tileWidth = tileWidth
+	grid.tileHeight = tileHeight
 	for y = top, imageHeight - 1, grid.tileHeight + offsetY do
 		for x = left, imageWidth - 1, grid.tileWidth + offsetX do
 			local tile = love.graphics.newQuad(x, y, grid.tileWidth, grid.tileHeight, imageWidth, imageHeight)
@@ -36,7 +34,8 @@ function Grid.new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, off
 		end
 	end
 
-	setmetatable(grid, Grid)
+	setmetatable(grid, self)
+	self.__index = self
 	return grid
 end
 
@@ -47,7 +46,7 @@ end
 ---@param interval? number # The interval between frame quads, in seconds. Default = 1.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. Default = true.
 ---@return Animation animation # The new Animation object
-function Animation.new(image, grid, frames, interval, loop)
+function Animation:new(image, grid, frames, interval, loop)
 	---@class Animation
 	local animation = {}
 	animation.image = image
@@ -60,7 +59,8 @@ function Animation.new(image, grid, frames, interval, loop)
 	animation.isPlaying = true
 	animation.isFlipped = false
 
-	setmetatable(animation, Animation)
+	setmetatable(animation, self)
+	self.__index = self
 	return animation
 end
 
