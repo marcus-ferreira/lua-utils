@@ -11,6 +11,7 @@
 [State](libs/state.lua) (WIP) <br>
 [Table](libs/table.lua) <br>
 [Tileset](libs/tileset.lua) (WIP)
+[Vector](libs/vector.lua)
 
 ## Shaders
 [4colors](shaders/4colors.glsl) <br>
