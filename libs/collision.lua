@@ -1,14 +1,13 @@
 --[[
-	Version: 0.1.4
+	Version: 0.1.5
+	19/11/2023
 ]]
 
 ---@class Rectangle
 Rectangle = {}
-Rectangle.__index = Rectangle
 
 ---@class Circle
 Circle = {}
-Circle.__index = Circle
 
 ---Creates a new Rectangle.
 ---@param x number
@@ -23,8 +22,8 @@ function Rectangle.new(x, y, width, height)
 	rectangle.y = y
 	rectangle.width = width
 	rectangle.height = height
-
 	setmetatable(rectangle, Rectangle)
+	Rectangle.__index = Rectangle
 	return rectangle
 end
 
@@ -39,8 +38,8 @@ function Circle.new(x, y, radius)
 	circle.x = x
 	circle.y = y
 	circle.radius = radius
-
 	setmetatable(circle, Circle)
+	Circle.__index = Circle
 	return circle
 end
 
@@ -51,9 +50,9 @@ end
 ---@return boolean
 function Rectangle:isColliding(object, x, y)
 	local class = getmetatable(object)
+	assert(class == Rectangle or class == Circle, "Object must be a Rectangle or Circle.")
 	x = x or 0
 	y = y or 0
-	assert(class == Rectangle or class == Circle, "Object must be a Rectangle or Circle.")
 
 	if class == Rectangle then
 		return self.x + x <= object.x + object.width and
@@ -75,9 +74,9 @@ end
 ---@return boolean
 function Circle:isColliding(object, x, y)
 	local class = getmetatable(object)
+	assert(class == Rectangle or class == Circle, "Param must be a Rectangle or Circle.")
 	x = x or 0
 	y = y or 0
-	assert(class == Rectangle or class == Circle, "Param must be a Rectangle or Circle.")
 
 	if class == Rectangle then
 		local dx = self.x + x - math.max(object.x, math.min(self.x + x, object.x + object.width))
@@ -90,7 +89,11 @@ function Circle:isColliding(object, x, y)
 end
 
 ---Draws the Rectangle.
-function Rectangle:draw() love.graphics.rectangle("line", self.x, self.y, self.width, self.height) end
+function Rectangle:draw()
+	love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+end
 
 ---Draws the Circle.
-function Circle:draw() love.graphics.circle("line", self.x, self.y, self.radius) end
+function Circle:draw()
+	love.graphics.circle("line", self.x, self.y, self.radius)
+end
