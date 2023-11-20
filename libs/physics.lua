@@ -1,5 +1,6 @@
 --[[
-	Version: 0.1.4
+	Version: 0.1.5
+	20/11/2023
 ]]
 
 ---@class RectangleCollider
@@ -18,21 +19,22 @@ CircleCollider.__index = CircleCollider
 ---@param height number
 ---@param type? love.BodyType
 ---@return RectangleCollider
-function love.physics.newRectangleCollider(world, x, y, width, height, type)
+function RectangleCollider:new(world, x, y, width, height, type)
 	---@class RectangleCollider
-	local rectangleCollider = {}
-	rectangleCollider.body = love.physics.newBody(world, x, y, type or "static")
-	rectangleCollider.body:setFixedRotation(true)
-	rectangleCollider.shape = love.physics.newRectangleShape(width, height)
-	rectangleCollider.fixture = love.physics.newFixture(rectangleCollider.body, rectangleCollider.shape)
-	rectangleCollider.fixture:setFriction(0)
-
-	setmetatable(rectangleCollider, RectangleCollider)
-	return rectangleCollider
+	local this = {}
+	this.body = love.physics.newBody(world, x, y, type or "static")
+	this.body:setFixedRotation(true)
+	this.shape = love.physics.newRectangleShape(width, height)
+	this.fixture = love.physics.newFixture(this.body, this.shape)
+	this.fixture:setFriction(0)
+	setmetatable(this, self)
+	return this
 end
 
 ---Draws the rectangle collider.
-function RectangleCollider:draw() love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints())) end
+function RectangleCollider:draw()
+	love.graphics.polygon("line", self.body:getWorldPoints(self.shape:getPoints()))
+end
 
 ---Gets the width and height of the collider.
 ---@return number width # The collider width.
@@ -66,18 +68,24 @@ end
 ---@param radius number
 ---@param type? love.BodyType
 ---@return CircleCollider
-function love.physics.newCircleCollider(world, x, y, radius, type)
+function CircleCollider:new(world, x, y, radius, type)
 	---@class CircleCollider
-	local circleCollider = {}
-	circleCollider.body = love.physics.newBody(world, x, y, type or "static")
-	circleCollider.body:setFixedRotation(true)
-	circleCollider.shape = love.physics.newCircleShape(radius)
-	circleCollider.fixture = love.physics.newFixture(circleCollider.body, circleCollider.shape)
-	circleCollider.fixture:setFriction(0)
-
-	setmetatable(circleCollider, CircleCollider)
-	return circleCollider
+	local this = {}
+	this.body = love.physics.newBody(world, x, y, type or "static")
+	this.body:setFixedRotation(true)
+	this.shape = love.physics.newCircleShape(radius)
+	this.fixture = love.physics.newFixture(this.body, this.shape)
+	this.fixture:setFriction(0)
+	setmetatable(this, self)
+	return this
 end
 
 ---Draws the circle collider.
-function CircleCollider:draw() love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius()) end
+function CircleCollider:draw()
+	love.graphics.circle("line", self.body:getX(), self.body:getY(), self.shape:getRadius())
+end
+
+---Gets the collider radius.
+function CircleCollider:getRadius()
+	return self.shape:getRadius()
+end
