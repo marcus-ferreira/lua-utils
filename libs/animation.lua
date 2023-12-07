@@ -1,72 +1,76 @@
 --[[
-	Version: 0.1.3
-	22/10/2023
+	Version: 0.1.4
+	07/12/2023
 ]]
 
----@class Grid
-Grid = {}
+---@class animation
+animation = {}
+animation.__index = animation
 
----@class Animation
-Animation = {}
+---@class grid
+grid = {}
+grid.__index = grid
 
----Creates a new Grid, a list of Quads.
----@param tileWidth number
----@param tileHeight number
----@param left? number # Default = 0.
----@param top? number # Default = 0.
----@param offsetX? number # Default = 0.
----@param offsetY? number # Default = 0.
----@return Grid
-function Grid:new(tileWidth, tileHeight, imageWidth, imageHeight, left, top, offsetX, offsetY)
+
+---Creates a new grid, a list of Quads.
+---@param tileWidth number # The width of a tile.
+---@param tileHeight number # The height of a tile.
+---@param tileColumns number # The number of tile columns.
+---@param tileRows number # The number of tile rows.
+---@param left? number # Where to start to draw from left. Default = 0.
+---@param top? number # Where to start to draw from top. Default = 0.
+---@param offsetX? number # The margin in between tiles collumns. Default = 0.
+---@param offsetY? number # The margin in between tiles rows. Default = 0.
+---@return grid grid # The grid table.
+function animation.newGrid(tileWidth, tileHeight, tileColumns, tileRows, left, top, offsetX, offsetY)
 	left = left or 0
 	top = top or 0
 	offsetX = offsetX or 0
 	offsetY = offsetY or 0
 
-	---@class Grid
-	local grid = {}
-	grid.tileWidth = tileWidth
-	grid.tileHeight = tileHeight
-	for y = top, imageHeight - 1, grid.tileHeight + offsetY do
-		for x = left, imageWidth - 1, grid.tileWidth + offsetX do
-			local tile = love.graphics.newQuad(x, y, grid.tileWidth, grid.tileHeight, imageWidth, imageHeight)
-			table.insert(grid, tile)
+	---@class grid
+	local this = {}
+	this.tileWidth = tileWidth
+	this.tileHeight = tileHeight
+	for y = top, tileHeight * tileRows - 1, tileHeight + offsetY do
+		for x = left, tileWidth * tileColumns - 1, tileWidth + offsetX do
+			local tile = love.graphics.newQuad(
+				x, y, tileWidth, tileHeight, tileWidth * tileColumns, tileHeight * tileRows)
+			table.insert(this, tile)
 		end
 	end
 
-	setmetatable(grid, self)
-	self.__index = self
-	return grid
+	setmetatable(this, grid)
+	return this
 end
 
----Creates a new Animation.
+---Creates a new animation.
 ---@param image love.Image # The image to be used.
----@param grid Grid # The grid table to be used.
+---@param grid grid # The grid table to be used.
 ---@param frames table # A table of the numbers of the frames in a quad list.
 ---@param interval? number # The interval between frame quads, in seconds. Default = 1.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. Default = true.
----@return Animation animation # The new Animation object
-function Animation:new(image, grid, frames, interval, loop)
-	---@class Animation
-	local animation = {}
-	animation.image = image
-	animation.grid = grid
-	animation.frames = frames
-	animation.indexCurrentFrame = 1
-	animation.interval = interval or 1
-	animation.loop = loop or true
-	animation.timer = 0
-	animation.isPlaying = true
-	animation.isFlipped = false
+---@return animation animation # The new animation object
+function animation.newAnimation(image, grid, frames, interval, loop)
+	---@class animation
+	local this = {}
+	this.image = image
+	this.grid = grid
+	this.frames = frames
+	this.indexCurrentFrame = 1
+	this.interval = interval or 1
+	this.loop = loop or true
+	this.timer = 0
+	this.isPlaying = true
+	this.isFlipped = false
 
-	setmetatable(animation, self)
-	self.__index = self
-	return animation
+	setmetatable(this, animation)
+	return this
 end
 
 ---Updates the Animation
 ---@param dt number
-function Animation:update(dt)
+function animation:update(dt)
 	-- don't update if there's only 1 frame
 	if #self.frames == 1 then return end
 
@@ -94,7 +98,7 @@ end
 ---Draws the animation
 ---@param x number # The X position of the animation.
 ---@param y number # The Y position of the animation.
-function Animation:draw(x, y)
+function animation:draw(x, y)
 	love.graphics.draw(
 		self.image,                  -- image
 		self.grid[self:getCurrentFrame()], -- quad
@@ -110,26 +114,40 @@ end
 
 ---Gets the current frame of the animation (not the index)
 ---@return love.Quad # The frame of the animation
-function Animation:getCurrentFrame() return self.frames[self.indexCurrentFrame] end
+function animation:getCurrentFrame()
+	return self.frames[self.indexCurrentFrame]
+end
 
 ---Set the animation to a specific frame.
 ---@param frameNumber number # The index of the frame to go.
-function Animation:goToFrame(frameNumber) self.indexCurrentFrame = frameNumber end
+function animation:goToFrame(frameNumber)
+	self.indexCurrentFrame = frameNumber
+end
 
 ---Checks if the animation has ended
 ---@return boolean # True if the last frame of the animation is playing
-function Animation:isEnded() return self.indexCurrentFrame == #self.frames end
+function animation:isEnded()
+	return self.indexCurrentFrame == #self.frames
+end
 
 ---Plays current animation
-function Animation:play() self.isPlaying = true end
+function animation:play()
+	self.isPlaying = true
+end
 
 ---Sets the animation flipped status
 ---@param boolean boolean
-function Animation:setFlipped(boolean) self.isFlipped = boolean end
+function animation:setFlipped(boolean)
+	self.isFlipped = boolean
+end
 
 ---Sets the animation to loop or not
 ---@param boolean boolean # True to turn loop on, false to turn off
-function Animation:setLoop(boolean) self.loop = boolean end
+function animation:setLoop(boolean)
+	self.loop = boolean
+end
 
 ---Stops current animation
-function Animation:stop() self.isPlaying = false end
+function animation:stop()
+	self.isPlaying = false
+end
