@@ -1,3 +1,5 @@
+require("dependencies")
+
 function love.load()
 end
 
