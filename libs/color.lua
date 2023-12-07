@@ -1,9 +1,10 @@
 --[[
-	Version: 0.1.1
+	Version: 0.1.2
+	07/12/2023
 ]]
 
 ---@class color
-local color = {}
+color = {}
 
 ---Converts a hex (given without '#') value to RGB. (output range: 0 - 1)
 ---@param hex string
@@ -84,5 +85,3 @@ function color.HSVToRGB(h, s, v)
 
 	return { r + m, g + m, b + m }
 end
-
-return color
