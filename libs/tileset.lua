@@ -2,8 +2,6 @@
 	Version: 0.1.0
 ]]
 
-require("libs.grid")
-
 ---@class Tileset
 Tileset = {}
 
