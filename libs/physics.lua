@@ -1,6 +1,6 @@
 --[[
-	Version: 0.1.5
-	20/11/2023
+	Version: 0.1.6
+	09/12/2023
 ]]
 
 ---@class RectangleCollider
@@ -19,16 +19,15 @@ CircleCollider.__index = CircleCollider
 ---@param height number
 ---@param type? love.BodyType
 ---@return RectangleCollider
-function RectangleCollider:new(world, x, y, width, height, type)
+function RectangleCollider.new(world, x, y, width, height, type)
 	---@class RectangleCollider
-	local this = {}
-	this.body = love.physics.newBody(world, x, y, type or "static")
-	this.body:setFixedRotation(true)
-	this.shape = love.physics.newRectangleShape(width, height)
-	this.fixture = love.physics.newFixture(this.body, this.shape)
-	this.fixture:setFriction(0)
-	setmetatable(this, self)
-	return this
+	local self = setmetatable({}, RectangleCollider)
+	self.body = love.physics.newBody(world, x, y, type or "static")
+	self.body:setFixedRotation(true)
+	self.shape = love.physics.newRectangleShape(width, height)
+	self.fixture = love.physics.newFixture(self.body, self.shape)
+	self.fixture:setFriction(0)
+	return self
 end
 
 ---Draws the rectangle collider.
@@ -43,7 +42,6 @@ function RectangleCollider:getSize()
 	local x1, y1, x2, _, _, _, _, y4 = self.body:getWorldPoints(self.shape:getPoints())
 	local width = x2 - x1
 	local height = y4 - y1
-
 	return width, height
 end
 
@@ -68,16 +66,15 @@ end
 ---@param radius number
 ---@param type? love.BodyType
 ---@return CircleCollider
-function CircleCollider:new(world, x, y, radius, type)
+function CircleCollider.new(world, x, y, radius, type)
 	---@class CircleCollider
-	local this = {}
-	this.body = love.physics.newBody(world, x, y, type or "static")
-	this.body:setFixedRotation(true)
-	this.shape = love.physics.newCircleShape(radius)
-	this.fixture = love.physics.newFixture(this.body, this.shape)
-	this.fixture:setFriction(0)
-	setmetatable(this, self)
-	return this
+	local self = setmetatable({}, CircleCollider)
+	self.body = love.physics.newBody(world, x, y, type or "static")
+	self.body:setFixedRotation(true)
+	self.shape = love.physics.newCircleShape(radius)
+	self.fixture = love.physics.newFixture(self.body, self.shape)
+	self.fixture:setFriction(0)
+	return self
 end
 
 ---Draws the circle collider.
