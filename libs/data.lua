@@ -1,9 +1,10 @@
 --[[
-	Version: 0.1.1
+	Version: 0.1.2
+	09/12/2023
 ]]
 
 ---@class data
-local data = {}
+data = {}
 
 function data.save(fileName, gameData)
 	local serializedString = "{"
@@ -23,5 +24,3 @@ function data.load(fileName)
 
 	return deserializedTable
 end
-
-return data
