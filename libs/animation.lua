@@ -1,6 +1,6 @@
 --[[
-	Version: 0.1.5
-	09/12/2023
+	Version: 0.1.6
+	16/12/2023
 ]]
 
 ---@class Animation
@@ -61,6 +61,8 @@ function Animation.new(image, grid, frames, interval, loop)
 	self.timer = 0
 	self.isPlaying = true
 	self.isFlipped = false
+	self.originX = self.grid.tileWidth / 2
+	self.originY = self.grid.tileHeight / 2
 	return self
 end
 
@@ -103,8 +105,8 @@ function Animation:draw(x, y)
 		0,                           -- rotation
 		self.isFlipped and -1 or 1,  -- scaleX
 		1,                           -- scaleY
-		self.grid.tileWidth / 2,     -- originX
-		self.grid.tileHeight / 2     -- originY
+		self.originX,                -- originX
+		self.originY                 -- originY
 	)
 end
 
