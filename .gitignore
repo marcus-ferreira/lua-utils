@@ -1,4 +1,5 @@
-/.vscode
+.vscode/
+sprites/
 main.lua
 conf.lua
 dependencies.lua
