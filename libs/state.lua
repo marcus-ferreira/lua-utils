@@ -4,13 +4,22 @@
 	Date: 18/10/2024
 ]]
 
+
+---@class state
+state = {}
+
 ---@class StateMachine
 StateMachine = {}
 StateMachine.__index = StateMachine
 
+---@class State
+State = {}
+State.__index = State
+
+
 ---Creates a new State Machine
 ---@return StateMachine
-function StateMachine.new()
+function state.newStateMachine()
 	---@class StateMachine
 	local self = setmetatable({}, StateMachine)
 	self.states = {}
@@ -18,9 +27,25 @@ function StateMachine.new()
 	return self
 end
 
+---Creates a new State
+---@param enter? function
+---@param update? function
+---@param draw? function
+---@param exit? function
+---@return State
+function state.newState(enter, update, draw, exit)
+	---@class State
+	local self = setmetatable({}, State)
+	self.enter = enter or function() end
+	self.update = update or function(dt) end
+	self.draw = draw or function() end
+	self.exit = exit or function() end
+	return self
+end
+
 ---Adds a state to the State Machine
 ---@param name string
----@param state function
+---@param state State
 function StateMachine:addState(name, state)
 	self.states[name] = state
 end
