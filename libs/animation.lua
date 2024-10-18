@@ -1,7 +1,12 @@
 --[[
-	Version: 0.1.6
-	16/12/2023
+	Author: Marcus Ferreira
+	Version: 0.2.0
+	17/10/2024
 ]]
+
+
+---@class animation
+animation = {}
 
 ---@class Animation
 Animation = {}
@@ -22,7 +27,7 @@ Grid.__index = Grid
 ---@param offsetX? number # The margin in between tiles collumns. Default = 0.
 ---@param offsetY? number # The margin in between tiles rows. Default = 0.
 ---@return Grid grid # The Grid object.
-function Grid.new(tileWidth, tileHeight, tileColumns, tileRows, left, top, offsetX, offsetY)
+function animation.newGrid(tileWidth, tileHeight, tileColumns, tileRows, left, top, offsetX, offsetY)
 	left = left or 0
 	top = top or 0
 	offsetX = offsetX or 0
@@ -49,7 +54,7 @@ end
 ---@param interval? number # The interval between frame quads, in seconds. Default = 1.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. Default = true.
 ---@return Animation animation # The new Animation object.
-function Animation.new(image, grid, frames, interval, loop)
+function animation.newAnimation(image, grid, frames, interval, loop)
 	---@class Animation
 	local self = setmetatable({}, Animation)
 	self.image = image
