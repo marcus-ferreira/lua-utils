@@ -1,6 +1,7 @@
 --[[
 	Author: Marcus Ferreira
 	Version: 0.2.0
+	Date: 18/10/2024
 ]]
 
 ---Returns the angle between two vectors assuming the same origin.
