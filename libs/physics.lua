@@ -1,7 +1,12 @@
 --[[
-	Version: 0.1.6
-	09/12/2023
+	Author: Marcus Ferreira
+	Version: 0.2.0
+	Date: 18/10/2024
 ]]
+
+
+---@class physics
+physics = {}
 
 ---@class RectangleCollider
 RectangleCollider = {}
@@ -11,6 +16,7 @@ RectangleCollider.__index = RectangleCollider
 CircleCollider = {}
 CircleCollider.__index = CircleCollider
 
+
 ---Creates a new RectangleCollider.
 ---@param world love.World
 ---@param x number
@@ -19,12 +25,30 @@ CircleCollider.__index = CircleCollider
 ---@param height number
 ---@param type? love.BodyType
 ---@return RectangleCollider
-function RectangleCollider.new(world, x, y, width, height, type)
+function physics.newRectangleCollider(world, x, y, width, height, type)
 	---@class RectangleCollider
 	local self = setmetatable({}, RectangleCollider)
 	self.body = love.physics.newBody(world, x, y, type or "static")
 	self.body:setFixedRotation(true)
 	self.shape = love.physics.newRectangleShape(width, height)
+	self.fixture = love.physics.newFixture(self.body, self.shape)
+	self.fixture:setFriction(0)
+	return self
+end
+
+---Creates a new CircleCollider.
+---@param world love.World
+---@param x number
+---@param y number
+---@param radius number
+---@param type? love.BodyType
+---@return CircleCollider
+function physics.newCircleCollider(world, x, y, radius, type)
+	---@class CircleCollider
+	local self = setmetatable({}, CircleCollider)
+	self.body = love.physics.newBody(world, x, y, type or "static")
+	self.body:setFixedRotation(true)
+	self.shape = love.physics.newCircleShape(radius)
 	self.fixture = love.physics.newFixture(self.body, self.shape)
 	self.fixture:setFriction(0)
 	return self
@@ -57,24 +81,6 @@ end
 function RectangleCollider:getHeight()
 	local _, height = self:getSize()
 	return height
-end
-
----Creates a new CircleCollider.
----@param world love.World
----@param x number
----@param y number
----@param radius number
----@param type? love.BodyType
----@return CircleCollider
-function CircleCollider.new(world, x, y, radius, type)
-	---@class CircleCollider
-	local self = setmetatable({}, CircleCollider)
-	self.body = love.physics.newBody(world, x, y, type or "static")
-	self.body:setFixedRotation(true)
-	self.shape = love.physics.newCircleShape(radius)
-	self.fixture = love.physics.newFixture(self.body, self.shape)
-	self.fixture:setFriction(0)
-	return self
 end
 
 ---Draws the circle collider.
