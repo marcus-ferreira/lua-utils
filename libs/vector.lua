@@ -1,41 +1,60 @@
 --[[
-	Version 0.1.1
+	Author: Marcus Ferreira
+	Version: 0.1.2
+	Date: 18/10/2024
 ]]
 
----@class Vector
-Vector = {}
-Vector.__index = Vector
 
----@class Vector2 : Vector
+---@class vector
+vector = {}
+
+---@class Vector2
 Vector2 = {}
 Vector2.__index = Vector2
-Vector2.__add = function(vectorA, vectorB) return Vector2.new(vectorA.x + vectorB.x, vectorA.y + vectorB.y) end
-Vector2.__sub = function(vectorA, vectorB) return Vector2.new(vectorA.x - vectorB.x, vectorA.y - vectorB.y) end
-Vector2.__mul = function(vector, scalar)
-	assert(type(scalar) == "number", "Scalar must be a number")
-	return Vector2.new(vector.x * scalar, vector.y * scalar)
-end
-Vector2.__div = function(vector, scalar)
-	assert(type(scalar) == "number", "Scalar must be a number")
-	return Vector2.new(vector.x / scalar, vector.y / scalar)
-end
-setmetatable(Vector2, Vector)
+
 
 ---Creates a new Vector2.
----@param x number
----@param y number
+---@param x? number
+---@param y? number
 ---@return Vector2
-function Vector2.new(x, y)
-	---@class Vector2 : Vector
-	local vector2 = {}
-	vector2.x = x
-	vector2.y = y
-	setmetatable(vector2, Vector2)
-	return vector2
+function vector.newVector2(x, y)
+	---@class Vector2
+	local self = setmetatable({}, Vector2)
+	self.x = x or 0
+	self.y = y or 0
+	return self
 end
 
-function Vector2:normalized()
-	local lvl = (self.x ^ 2 + self.y ^ 2) ^ 0.5
-	if lvl ~= 0 then return Vector2.new(self.x / lvl, self.y / lvl) end
-	return Vector2.new(0, 0)
+function Vector2:__add(v)
+	return vector.newVector2(self.x + v.x, self.y + v.y)
+end
+
+function Vector2:__sub(v)
+	return vector.newVector2(self.x - v.x, self.y - v.y)
+end
+
+function Vector2:__mul(scalar)
+	return vector.newVector2(self.x * scalar, self.y * scalar)
+end
+
+function Vector2:__div(scalar)
+	return vector.newVector2(self.x / scalar, self.y / scalar)
+end
+
+function Vector2:__tostring()
+	return "Vector(" .. self.x .. ", " .. self.y .. ")"
+end
+
+function Vector2:magniture()
+	return (self.x ^ 2 + self.y ^ 2) ^ 0.5
+end
+
+function Vector2:normalize()
+	local mag = self:magniture()
+	if mag > 0 then return self / mag end
+	return vector.newVector2(0, 0)
+end
+
+function Vector2:dot(v)
+	return self.x * v.x + self.y + v.y
 end
