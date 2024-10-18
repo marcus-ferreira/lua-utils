@@ -23,12 +23,12 @@ CircleCollider.__index = CircleCollider
 ---@param y number
 ---@param width number
 ---@param height number
----@param type? love.BodyType
+---@param type love.BodyType
 ---@return RectangleCollider
-function physics.newRectangleCollider(world, x, y, width, height, type)
+function physics.newRectangleCollider(world, x, y, type, width, height)
 	---@class RectangleCollider
 	local self = setmetatable({}, RectangleCollider)
-	self.body = love.physics.newBody(world, x, y, type or "static")
+	self.body = love.physics.newBody(world, x, y, type)
 	self.body:setFixedRotation(true)
 	self.shape = love.physics.newRectangleShape(width, height)
 	self.fixture = love.physics.newFixture(self.body, self.shape)
