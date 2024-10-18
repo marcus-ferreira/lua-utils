@@ -25,29 +25,19 @@ This project is a collection of Lua libraries and GLSL shaders for game developm
 
 ## Libraries
 * **[animation.lua](libs/animation.lua)**: Manages animations, including the creation and updating of frames.
-
 * **[collision.lua](libs/collision.lua)**: Utility functions for detecting collisions between objects.
-
 * **[color.lua](libs/color.lua)**: Color manipulation, including conversion between different color formats.
-
 * **[data.lua](libs/data.lua)**: Functions for handling data storage and retrieval.
-
 * **[math.lua](libs/math.lua)**: Useful mathematical functions, including vector operations and geometric calculations.
-
 * **[physics.lua](libs/physics.lua)**: Setup and management of physics, including creating bodies and shapes.
-
 * **[state.lua](libs/state.lua)**: State management, including state transitions and updates.
-
 * **[table.lua](libs/table.lua)**: Utility functions for table manipulation, including slicing and serialization.
-
 * **[vector.lua](libs/vector.lua)**: Implementation of 2D vectors, including basic and advanced operations.
 
 
 ## Shaders
 * **[4colors.glsl](shaders/4colors.glsl)**: Shader that converts the image to a 4-color palette, simulating a Game Boy style.
-
 * **[changeColor.glsl](shaders/changeColor.glsl)**: Shader that changes the color of objects on the screen based on defined parameters.
-
 * **[lightning.glsl](shaders/lightning.glsl)**: Shader that creates a lighting effect based on the mouse position, with blurred edges and a delay to simulate a shadow.
 
 
