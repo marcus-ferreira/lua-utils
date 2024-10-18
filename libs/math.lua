@@ -1,5 +1,6 @@
 --[[
-	Version: 0.1.1
+	Author: Marcus Ferreira
+	Version: 0.2.0
 ]]
 
 ---Returns the angle between two vectors assuming the same origin.
@@ -8,7 +9,9 @@
 ---@param x2 number
 ---@param y2 number
 ---@return number
-function math.angle(x1, y1, x2, y2) return math.atan2(y2 - y1, x2 - x1) end
+function math.angle(x1, y1, x2, y2)
+	return math.atan2(y2 - y1, x2 - x1)
+end
 
 ---Averages an arbitrary number of angles (in radians).
 ---@param ... unknown
@@ -52,7 +55,9 @@ end
 ---@param n number
 ---@param high number
 ---@return number
-function math.clamp(low, n, high) return math.min(math.max(low, n), high) end
+function math.clamp(low, n, high)
+	return math.min(math.max(low, n), high)
+end
 
 ---Returns the distance between two points.
 ---@param x1 number
@@ -60,7 +65,9 @@ function math.clamp(low, n, high) return math.min(math.max(low, n), high) end
 ---@param x2 number
 ---@param y2 number
 ---@return number
-function math.dist2(x1, y1, x2, y2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2) ^ 0.5 end
+function math.dist2(x1, y1, x2, y2)
+	return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2) ^ 0.5
+end
 
 ---Distance between two 3D points.
 ---@param x1 number
@@ -70,7 +77,9 @@ function math.dist2(x1, y1, x2, y2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2) ^ 0.5
 ---@param y2 number
 ---@param z2 number
 ---@return number
-function math.dist3(x1, y1, z1, x2, y2, z2) return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2 + (z2 - z1) ^ 2) ^ 0.5 end
+function math.dist3(x1, y1, z1, x2, y2, z2)
+	return ((x2 - x1) ^ 2 + (y2 - y1) ^ 2 + (z2 - z1) ^ 2) ^ 0.5
+end
 
 ---Checks if two lines intersect (or line segments if seg is true). Lines are given as four numbers (two coordinates).
 ---@param l1p1x number
@@ -106,13 +115,17 @@ end
 ---@param b number
 ---@param t number
 ---@return number
-function math.lerp(a, b, t) return (1 - t) * a + t * b end
+function math.lerp(a, b, t)
+	return (1 - t) * a + t * b
+end
 
 ---@param a number
 ---@param b number
 ---@param t number
 ---@return number
-function math.lerp2(a, b, t) return a + (b - a) * t end
+function math.lerp2(a, b, t)
+	return a + (b - a) * t
+end
 
 ---Returns the closest multiple of 'size' (defaulting to 10).
 ---@param n number
@@ -131,14 +144,20 @@ end
 ---@return integer
 function math.normalize(x, y)
 	local l = (x * x + y * y) ^ 0.5
-	if l == 0 then return 0, 0, 0 else return x / l, y / l, l end
+	if l == 0 then
+		return 0, 0, 0
+	else
+		return x / l, y / l, l
+	end
 end
 
 ---Gives a precise random decimal number given a minimum and maximum
 ---@param min number
 ---@param max number
 ---@return number
-function math.prandom(min, max) return love.math.random() * (max - min) + min end
+function math.prandom(min, max)
+	return love.math.random() * (max - min) + min
+end
 
 ---Returns 'n' rounded to the nearest 'deci'th (defaulting whole numbers).
 ---@param n number
@@ -151,9 +170,13 @@ end
 
 ---Randomly returns either -1 or 1.
 ---@return integer
-function math.rsign() return love.math.random(2) == 2 and 1 or -1 end
+function math.rsign()
+	return love.math.random(2) == 2 and 1 or -1
+end
 
 ---Returns 1 if number is positive, -1 if it's negative, or 0 if it's 0.
 ---@param n number
 ---@return integer
-function math.sign(n) return n > 0 and 1 or n < 0 and -1 or 0 end
+function math.sign(n)
+	return n > 0 and 1 or n < 0 and -1 or 0
+end
