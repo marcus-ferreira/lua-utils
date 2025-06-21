@@ -1,19 +1,19 @@
 --[[
 	Author: Marcus Ferreira
-	Version: 0.1.2
-	Date: 18/10/2024
+
+	17/06/2025 - 0.1.3v
 ]]
 
 
 ---@class vector
-vector = {}
+local vector = {}
 
 ---@class Vector2
-Vector2 = {}
+local Vector2 = {}
 Vector2.__index = Vector2
 
 
----Creates a new Vector2.
+---Creates a new 2D Vector.
 ---@param x? number
 ---@param y? number
 ---@return Vector2
@@ -58,3 +58,5 @@ end
 function Vector2:dot(v)
 	return self.x * v.x + self.y + v.y
 end
+
+return vector

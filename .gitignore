@@ -1,6 +1,5 @@
 .vscode/
 sprites/
-src/
-
+shaders/
 libs/map.lua
 libs/tileset.lua

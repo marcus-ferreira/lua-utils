@@ -1,7 +1,7 @@
 --[[
 	Author: Marcus Ferreira
-	Version: 0.2.0
-	Date: 18/10/2024
+
+	08/06/2025 - 0.2.1 - Fix math.atan function
 ]]
 
 ---Returns the angle between two vectors assuming the same origin.
@@ -11,7 +11,7 @@
 ---@param y2 number
 ---@return number
 function math.angle(x1, y1, x2, y2)
-	return math.atan2(y2 - y1, x2 - x1)
+	return math.atan(y2 - y1, x2 - x1)
 end
 
 ---Averages an arbitrary number of angles (in radians).
@@ -23,7 +23,7 @@ function math.averageAngles(...)
 		local a = select(i, ...)
 		x, y = x + math.cos(a), y + math.sin(a)
 	end
-	return math.atan2(y, x)
+	return math.atan(y, x)
 end
 
 ---Cosine interpolation between two numbers.
