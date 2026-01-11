@@ -6,9 +6,16 @@
 ]]
 
 
+---@class animation
+animation = {}
+
 ---@class Grid
-local Grid = {}
+Grid = {}
 Grid.__index = Grid
+
+---@class Animation
+Animation = {}
+Animation.__index = Animation
 
 
 ---@param tileWidth number # The width of a tile.
@@ -54,9 +61,6 @@ function Grid:getTileHeight()
 	return self.tileHeight
 end
 
----@class Animation
-local Animation = {}
-Animation.__index = Animation
 
 ---@param image love.Image # The image to be used.
 ---@param grid Grid # The Grid object to be used.
@@ -164,5 +168,3 @@ end
 function Animation:stop()
 	self.currentState = self.states.STOPPED
 end
-
-return { animation = Animation, grid = Grid }
