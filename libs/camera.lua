@@ -1,6 +1,5 @@
 --[[
 	Author: Marcus Ferreira
-
 	29/04/2025 - 0.1.1v - Fix some texts
 ]]
 

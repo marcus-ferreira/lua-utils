@@ -1,6 +1,5 @@
 --[[
 	Author: Marcus Ferreira
-
 	07/06/2025 - 0.0.1v - Implement
 ]]
 

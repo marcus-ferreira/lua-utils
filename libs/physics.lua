@@ -1,7 +1,6 @@
 --[[
 	Author: Marcus Ferreira
-	Version: 0.2.0
-	Date: 18/10/2024
+	18/10/2024 - 0.2.0v - Initial
 ]]
 
 

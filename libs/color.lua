@@ -1,7 +1,6 @@
 --[[
 	Author: Marcus
-	Version: 0.1.3
-	Date: 18/10/2024
+	18/10/2024 - 0.1.3v - Initial
 ]]
 
 ---@class color

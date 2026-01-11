@@ -1,7 +1,6 @@
 --[[
 	Author: Marcus Ferreira
-	Version: 0.1.1
-	Date: 18/10/2024
+	18/10/2024 - 0.1.1v - Initial
 ]]
 
 ---Creates a sliced table

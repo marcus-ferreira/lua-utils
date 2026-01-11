@@ -1,7 +1,6 @@
 --[[
 	Author: Marcus Ferreira
-	Version: 0.1.0
-	Date: 20/10/2024
+	20/10/2024 - 0.1.0v - Initial
 ]]
 
 ---Simulates Python's f-string functionality, allowing variable interpolation in a string template

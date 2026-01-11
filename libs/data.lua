@@ -1,6 +1,6 @@
 --[[
-	Version: 0.1.2
-	09/12/2023
+	Author: Marcus Ferreira
+	09/12/2023 - 0.1.2v - Initial
 ]]
 
 ---@class data

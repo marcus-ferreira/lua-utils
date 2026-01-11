@@ -1,7 +1,6 @@
 --[[
 	Author: Marcus Ferreira
-
-	17/06/2025 - 0.1.3v
+	17/06/2025 - 0.1.3v - Initial
 ]]
 
 
