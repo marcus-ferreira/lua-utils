@@ -6,85 +6,68 @@
 ]]
 
 
----@class animation
-animation = {}
-
----@class Grid
-Grid = {}
-Grid.__index = Grid
-
 ---@class Animation
 Animation = {}
 Animation.__index = Animation
 
 
----@param tileWidth number # The width of a tile.
----@param tileHeight number # The height of a tile.
----@param tileColumns? number # The number of tile columns. Default = 1
----@param tileRows? number # The number of tile rows. Default = 1.
+---@param image love.Image # The image to be used.
+---@param tileColumns number # The number of the tiles in a row.
+---@param tileRows number # The number of the tiles is a collums.
 ---@param left? number # Where to start to draw from left. Default = 0.
 ---@param top? number # Where to start to draw from top. Default = 0.
 ---@param offsetX? number # The margin in between tiles collumns. Default = 0.
 ---@param offsetY? number # The margin in between tiles rows. Default = 0.
----@return Grid grid # The Grid object.
-function Grid.new(tileWidth, tileHeight, tileColumns, tileRows, left, top, offsetX, offsetY)
-	tileColumns = tileColumns or 1
-	tileRows = tileRows or 1
-	left = left or 0
-	top = top or 0
-	offsetX = offsetX or 0
-	offsetY = offsetY or 0
+---@return table grid # The Grid object.
+function love.graphics.newGrid(image, tileColumns, tileRows, left, top, offsetX, offsetY)
+	tileWidth  = image:getWidth() / tileColumns
+	tileHeight = image:getHeight() / tileRows
+	left       = left or 0
+	top        = top or 0
+	offsetX    = offsetX or 0
+	offsetY    = offsetY or 0
 
-	---@class Grid
-	local self = setmetatable({}, Grid)
-	self.tileWidth = tileWidth
-	self.tileHeight = tileHeight
-	self.quads = {}
+
+	local self = {}
 	for y = top, tileHeight * tileRows - 1, tileHeight + offsetY do
 		for x = left, tileWidth * tileColumns - 1, tileWidth + offsetX do
 			local tile = love.graphics.newQuad(
 				x, y, tileWidth, tileHeight, tileWidth * tileColumns, tileHeight * tileRows
 			)
-			table.insert(self.quads, tile)
+			table.insert(self, tile)
 		end
 	end
 	return self
 end
 
----@return number
-function Grid:getTileWidth()
-	return self.tileWidth
-end
-
----@return number
-function Grid:getTileHeight()
-	return self.tileHeight
-end
-
-
 ---@param image love.Image # The image to be used.
----@param grid Grid # The Grid object to be used.
----@param frames table # A table of the numbers of the frames in a quad list.
+---@param frames table # A table of the numbers of the quads in order.
 ---@param interval? number # The interval between frame quads, in seconds. Default = 1.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. Default = true.
 ---@return Animation animation # The new Animation object.
-function Animation.new(image, grid, frames, interval, loop)
+function Animation.newAnimation(image, grid, frames, originX, originY, interval, loop)
+	originX  = originX or 0
+	originY  = originY or 0
+	interval = interval or 1
+	loop     = loop == nil and true or false
+
+
 	---@class Animation
 	local self             = setmetatable({}, Animation)
 	self.image             = image
 	self.grid              = grid
 	self.frames            = frames
 	self.currentFrameIndex = 1
-	self.interval          = interval or 1
-	self.loop              = loop == nil and true or false
+	self.originX           = originX
+	self.originY           = originY
+	self.interval          = interval
+	self.loop              = loop
 	self.timer             = 0
-	self.originX           = self.grid.tileWidth / 2
-	self.originY           = self.grid.tileHeight / 2
 	self.states            = {
 		PLAYING = 1,
 		STOPPED = 2
 	}
-	self.currentState      = self.states.STOPPED
+	self.currentState      = self.states.PLAYING
 	return self
 end
 
@@ -117,17 +100,23 @@ end
 ---@param x number # The X position of the animation.
 ---@param y number # The Y position of the animation.
 ---@param rotation? number # The rotation value of the animation.
-function Animation:draw(x, y, rotation, flip)
+---@param sx? number # The scaleX of the animation.
+---@param sy? number # The scaleY of the animation.
+function Animation:draw(x, y, rotation, sx, sy)
+	rotation = rotation or 0
+	sx = sx or 1
+	sy = sy or 1
+
 	love.graphics.draw(
-		self.image,                        -- image
-		self.grid.quads[self:getCurrentFrame()], -- quad
-		x,                                 -- x
-		y,                                 -- y
-		rotation or 0,                     -- rotation
-		flip == true and -1 or 1,          -- scaleX
-		1,                                 -- scaleY
-		self.originX,                      -- originX
-		self.originY                       -- originY
+		self.image,                  -- image
+		self.grid[self:getCurrentFrame()], -- quad
+		x,                           -- x
+		y,                           -- y
+		rotation,                    -- rotation
+		sx,                          -- scaleX
+		sy,                          -- scaleY
+		self.originX,                -- originX
+		self.originY                 -- originY
 	)
 end
 
