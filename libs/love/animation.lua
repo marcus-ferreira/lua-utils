@@ -1,7 +1,7 @@
 --[[
 	Author: Marcus Ferreira
 	Description: A animation library for LOVE.
-	10/06/2025 - 0.2.2v
+	12/01/2026 - 0.3v
 ]]
 
 
