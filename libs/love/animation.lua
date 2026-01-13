@@ -1,7 +1,6 @@
 --[[
 	Author: Marcus Ferreira
 	Description: A animation library for LOVE.
-
 	10/06/2025 - 0.2.2v
 ]]
 
@@ -45,7 +44,7 @@ end
 ---@param interval? number # The interval between frame quads, in seconds. Default = 1.
 ---@param loop? boolean # True if the animation should be looped or false if contrary. Default = true.
 ---@return Animation animation # The new Animation object.
-function Animation.newAnimation(image, grid, frames, originX, originY, interval, loop)
+function love.graphics.newAnimation(image, grid, frames, originX, originY, interval, loop)
 	originX  = originX or 0
 	originY  = originY or 0
 	interval = interval or 1
