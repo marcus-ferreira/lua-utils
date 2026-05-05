@@ -19,7 +19,21 @@ local camera = {
 
 
 --- Methods
----Moves a camera to a targe position given a x and y values.
+--- Moves the camera to follow a target inside the map bounds.
+---@param x number The target X position.
+---@param y number The target Y position.
+---@param viewportWidth number The width of the viewport.
+---@param viewportHeight number The height of the viewport.
+---@param mapWidth number The total map width in pixels.
+---@param mapHeight number The total map height in pixels.
+---@param dt number The delta time.
+function camera.follow(x, y, viewportWidth, viewportHeight, mapWidth, mapHeight, dt)
+	local targetX = math.clamp(0, x - (viewportWidth / 2), mapWidth - viewportWidth)
+	local targetY = math.clamp(0, y - (viewportHeight / 2), mapHeight - viewportHeight - 4)
+	camera.moveTo(targetX, targetY, dt)
+end
+
+--- Moves the camera to a target position given x and y values.
 ---@param x number The X position target.
 ---@param y number The Y position target.
 ---@param dt number The delta time.
