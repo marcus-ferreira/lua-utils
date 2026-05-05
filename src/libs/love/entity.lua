@@ -164,6 +164,13 @@ function Entity:isByWall()
     return self.collider:isTouching("wall")
 end
 
+---Checks if the Entity is falling.
+---@return boolean isFalling True if the Entity velocity Y is positive and not on floor, false otherwise.
+function Entity:isFalling()
+    local _, vy = self.collider:getBody():getLinearVelocity()
+    return vy > 0 and not self:isOnFloor()
+end
+
 ---Checks if the Entity is on the floor.
 ---@return boolean isOnFloor True if the Entity is on the floor, false otherwise.
 function Entity:isOnFloor()
@@ -182,8 +189,10 @@ end
 
 ---Moves a Entity according to a behavior.
 ---@param vx number The x velocity of the Entity.
----@param vy number The y velocity of the Entity.
+---@param vy? number The y velocity of the Entity.
 function Entity:move(vx, vy)
+    vy = vy or 0
+
     if table.contains(self.behaviors, "8Directions") then
         assert(self.variables["speed"], "speed variable not set.")
         local speed = self.variables["speed"]
