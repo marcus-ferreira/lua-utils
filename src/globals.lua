@@ -31,67 +31,15 @@ colors = {
 
 
 --- Functions
----Loads the assets.
-function LoadAssets()
-    local manifest = require("src.assets")
-    assets = { fonts = {}, images = {}, sounds = {} }
-
-    for name, params in pairs(manifest.fonts) do
-        assets.fonts[name] = love.graphics.newFont(params.path, params.size)
-    end
-
-    for name, params in pairs(manifest.images) do
-        assets.images[name] = imageManager.newImageManager(params.path, params.grids)
-    end
-
-    for name, path in pairs(manifest.sounds) do
-        -- "static" para sons curtos, "stream" para músicas longas
-        local type = name:sub(1, 3) == "bgm" and "stream" or "static"
-        assets.sounds[name] = love.audio.newSource(path, type)
-    end
-end
-
 ---Resizes the window given a scale factor.
 ---@param scale number The scale factor.
 function ResizeWindow(scale)
     Scale = scale
-    love.window.setMode(VIRTUAL_WIDTH * Scale, VIRTUAL_HEIGHT * Scale, {})
-end
-
----Setups the inputs.
-function SetupInputs()
-    input.setActionsKeys({
-        ["up"]     = {
-            keys    = { "up", "w" },
-            buttons = { "dpup" },
-            axes    = { "lefty-" }
-        },
-        ["down"]   = {
-            keys    = { "down", "s" },
-            buttons = { "dpdown" },
-            axes    = { "lefty+" }
-        },
-        ["left"]   = {
-            keys    = { "left", "a" },
-            buttons = { "dpleft" },
-            axes    = { "leftx-" }
-        },
-        ["right"]  = {
-            keys    = { "right", "d" },
-            buttons = { "dpright" },
-            axes    = { "leftx+" }
-        },
-        ["attack"] = {
-            keys    = { "space" },
-            buttons = { "x" }
-        },
-        ["jump"]   = {
-            keys    = { "up", "w" },
-            buttons = { "a" }
-        },
-        ["quit"]   = {
-            keys    = { "escape" },
-            buttons = { "back" }
-        }
-    })
+    if scale == -1 then
+        love.window.setMode(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, { fullscreen = true, fullscreentype = "desktop" })
+    else
+        love.window.setMode(VIRTUAL_WIDTH * Scale, VIRTUAL_HEIGHT * Scale)
+    end
+    Scale = math.floor(love.graphics.getWidth() / VIRTUAL_WIDTH)
+    camera.setScale(Scale)
 end
