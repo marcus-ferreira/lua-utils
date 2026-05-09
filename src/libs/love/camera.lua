@@ -29,7 +29,7 @@ local camera = {
 ---@param dt number The delta time.
 function camera.follow(x, y, viewportWidth, viewportHeight, mapWidth, mapHeight, dt)
 	local targetX = math.clamp(0, x - (viewportWidth / 2), mapWidth - viewportWidth)
-	local targetY = math.clamp(0, y - (viewportHeight / 2), mapHeight - viewportHeight - 4)
+	local targetY = math.clamp(0, y - (viewportHeight / 2), mapHeight - viewportHeight - 34)
 	camera.moveTo(targetX, targetY, dt)
 end
 
