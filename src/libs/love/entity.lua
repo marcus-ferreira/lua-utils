@@ -168,13 +168,20 @@ end
 ---@return boolean isFalling True if the Entity velocity Y is positive and not on floor, false otherwise.
 function Entity:isFalling()
     local _, vy = self.collider:getBody():getLinearVelocity()
-    return vy > 0 and not self:isOnFloor()
+    return vy > 0 and not self:isOnGround()
 end
 
----Checks if the Entity is on the floor.
----@return boolean isOnFloor True if the Entity is on the floor, false otherwise.
-function Entity:isOnFloor()
+---Checks if the Entity is on the ground.
+---@return boolean isOnGround True if the Entity is on the ground, false otherwise.
+function Entity:isOnGround()
     return self.collider:isTouching("ground")
+end
+
+---Checks if the Entity is moving.
+---@return boolean isMoving True if the velocity x of the Entity is not 0, false otherwise.
+function Entity:isMoving()
+    local vx, _ = self.collider:getBody():getLinearVelocity()
+    return vx ~= 0
 end
 
 ---Jumps a platformer Entity.
