@@ -1,19 +1,16 @@
 return {
     fonts  = {
-        ["main"] = { path = "assets/fonts/love.ttf", size = 8 }
+        ["main"] = {
+            path = "assets/fonts/love.ttf",
+            size = 8
+        }
     },
     images = {
-        ["player"] = {
-            path = "assets/images/ivysaur.png",
+        ["main"] = {
+            path = "",
             grids = {
-                { tileWidth = 32, tileHeight = 32, columns = 10, rows = 2 },
-                { tileWidth = 74, tileHeight = 40, columns = 5,  rows = 1, top = 64 }
-            }
-        },
-        ["tileset"] = {
-            path = "assets/images/tileset.png",
-            grids = {
-                { tileWidth = 16, tileHeight = 16, columns = 17, rows = 10 }
+                { tileWidth = 0, tileHeight = 0, columns = 0, rows = 0, left = 0, top = 0, offsetX = 0, offsetY = 0 },
+                { tileWidth = 0, tileHeight = 0, columns = 0, rows = 0, left = 0, top = 0, offsetX = 0, offsetY = 0 }
             }
         }
     },
@@ -47,5 +44,14 @@ return {
             buttons = { "b" }
         }
     },
-    sounds = {}
+    sounds = {
+        ["bgm"] = {
+            path = "",
+            size = 0
+        },
+        ["sfx"] = {
+            path = "",
+            size = 0
+        }
+    }
 }
