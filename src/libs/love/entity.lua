@@ -41,7 +41,7 @@ Entity.__class = "Entity"
 ---@param x number The X coordinate of the Entity.
 ---@param y number The Y coordinate of the Entity.
 ---@param bodyType love.BodyType The type of the body of the collider of the Entity.
----@param config? table The table of the fixtures, animations and states of the Entity.
+---@param config? { states: table<string, table<string, function>>, animations: table<string, any[]>, fixtures: table<string, any[]> } The table of the fixtures, animations and states of the Entity.
 ---@return Entity entity A new Entity object.
 function entity.newEntity(world, x, y, bodyType, config)
     config = config or {}
@@ -65,7 +65,7 @@ end
 ---@param y number The Y coordinate of the Entity.
 ---@param speed? number The value of the speed variable of the Entity.
 ---@param jumpForce? number The value of the jumpForce variable of the Entity.
----@param config? table The table of the fixtures, animations and states of the Entity.
+---@param config? { states: table<string, table<string, function>>, animations: table<string, any[]>, fixtures: table<string, any[]> } The table of the fixtures, animations and states of the Entity.
 ---@return Entity entity A new Entity object.
 function entity.newPlatformerEntity(world, x, y, speed, jumpForce, config)
     speed     = speed or 100
