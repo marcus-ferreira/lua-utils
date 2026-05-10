@@ -18,7 +18,8 @@ local animationManager = {}
 ---@enum animationState
 local animationState = {
 	PLAYING = 1,
-	STOPPED = 2
+	STOPPED = 2,
+	FINISHED = 3
 }
 
 
@@ -55,8 +56,12 @@ Animation.__class = "Animation"
 
 --- Methods
 ---Creates a new AnimationManager object.
+---@param animations? table<string, any[]> The table of animations parameters.
 ---@return AnimationManager animationManager The new AnimationManager object.
-function animationManager.newAnimationManager()
+function animationManager.newAnimationManager(animations)
+	animations = animations or {}
+
+
 	---@type AnimationManager
 	local self = {
 		animations = {},
@@ -66,6 +71,7 @@ function animationManager.newAnimationManager()
 		scaleY = 1
 	}
 	setmetatable(self, AnimationManager)
+	self:addAnimations(animations)
 	return self
 end
 
@@ -245,7 +251,7 @@ function Animation:draw(x, y, rotation, sx, sy)
 	sy = sy or 1
 	love.graphics.draw(
 		self.image,                          -- image
-		self.grid:getQuad(self.currentFrameIndex), -- quad
+		self.grid:getQuad(self:getCurrentFrame()), -- quad
 		x,                                   -- x
 		y,                                   -- y
 		rotation,                            -- rotation
@@ -263,7 +269,18 @@ function Animation:drawOriginPoint(x, y)
 	love.graphics.circle("fill", x, y, 2)
 end
 
----Gets the current frame index of the Animation.
+---Finishes the animation, changing its state to FINISHED.
+function Animation:finishes()
+	self.currentState = animationState.FINISHED
+end
+
+---Gets the current frame of the Animation.
+---@return number currentFrame The current frame of the Animation.
+function Animation:getCurrentFrame()
+	return self.frames[self.currentFrameIndex]
+end
+
+---Gets the index of the current frame of the Animation.
 ---@return number currentFrameIndex The current frame index of the Animation.
 function Animation:getCurrentFrameIndex()
 	return self.currentFrameIndex
@@ -335,10 +352,10 @@ function Animation:goToNextFrame()
 	self.timer = self.timer - self.interval
 end
 
----Checks if the animation has ended.
----@return boolean isEnded True if the last frame of the animation is playing.
-function Animation:isEnded()
-	return self.currentFrameIndex == #self.frames
+---Checks if the animation has finished.
+---@return boolean isFinished True if the animation has finished.
+function Animation:isFinished()
+	return self.currentState == animationState.FINISHED
 end
 
 ---Checks if the animation is currently playing.
@@ -361,6 +378,13 @@ end
 ---Rewinds the animation to the first frame.
 function Animation:rewind()
 	self:goToFrame(1)
+end
+
+---Sets the interval between frame quads, in seconds.
+---@param value number The new interval between frame quads, in seconds.
+function Animation:setInterval(value)
+	assert(type(value) == "number" and value >= 0, "interval must be a positive number")
+	self.interval = value
 end
 
 ---Sets whether the animation should loop or not.
@@ -399,16 +423,11 @@ function Animation:update(dt)
 
 		-- Changes to next frame
 		if self.timer > self.interval then
-			self:goToNextFrame()
-		end
-
-		-- Goes back to first frame if is looping or stop
-		if self:isEnded() then
-			if self.loop then
-				self:goToNextFrame()
-			else
-				self:stop()
+			if not self.loop and self.currentFrameIndex == #self.frames then
+				self:finishes()
+				return
 			end
+			self:goToNextFrame()
 		end
 	end
 end

@@ -10,112 +10,79 @@ local vector = require("src.libs.love.vector")
 
 --- Library
 ---@class camera
-local camera = {}
-
-
---- Classes
----@class Camera
----@field private position Vector2 The position vector of the camera.
----@field private scale number The scale of the camera.
----@field private rotation number The rotation of the camera.
----@field private followSpeed number The speed at which the camera follows a target.
----@field private __index? table The index of the camera (for iterating).
----@field private __class? string The class of the camera.
-local Camera = {}
-Camera.__index = Camera
-Camera.__class = "Camera"
+local camera = {
+	position    = vector.newVector2(),
+	scale       = 1,
+	rotation    = 0,
+	followSpeed = 5
+}
 
 
 --- Methods
----Creates a new Camera object.
----@param x number X position of the camera.
----@param y number Y position of the camera.
----@param scale? number Scale of the camera.
----@param followSpeed? number The speed at which the camera follows a target.
----@return Camera camera A new Camera object.
-function camera.newCamera(x, y, scale, followSpeed)
-	scale = scale or 1
-	followSpeed = followSpeed or 5
-
-	---@type Camera
-	local self = {
-		position = vector.newVector2(x, y),
-		scale = scale,
-		rotation = 0,
-		followSpeed = followSpeed
-	}
-	setmetatable(self, Camera)
-	return self
+--- Moves the camera to follow a target inside the map bounds.
+---@param x number The target X position.
+---@param y number The target Y position.
+---@param viewportWidth number The width of the viewport.
+---@param viewportHeight number The height of the viewport.
+---@param mapWidth number The total map width in pixels.
+---@param mapHeight number The total map height in pixels.
+---@param dt number The delta time.
+function camera.follow(x, y, viewportWidth, viewportHeight, mapWidth, mapHeight, dt)
+	local targetX = math.clamp(0, x - (viewportWidth / 2), mapWidth - viewportWidth)
+	local targetY = math.clamp(0, y - (viewportHeight / 2), mapHeight - viewportHeight - 34)
+	camera.moveTo(targetX, targetY, dt)
 end
 
----Gets the position vector of the camera.
----@return Vector2 position The position vector of the camera.
-function Camera:getPosition()
-	return self.position
-end
-
----Gets the scale of the camera.
----@return number scale The scale of the camera.
-function Camera:getScale()
-	return self.scale
-end
-
----Gets the follow speed of the camera.
----@return number followSpeed The follow speed of the camera.
-function Camera:getFollowSpeed()
-	return self.followSpeed
-end
-
----Moves a camera to a targe position given a x and y values.
+--- Moves the camera to a target position given x and y values.
 ---@param x number The X position target.
 ---@param y number The Y position target.
 ---@param dt number The delta time.
-function Camera:moveTo(x, y, dt)
+function camera.moveTo(x, y, dt)
 	local target = vector.newVector2(x, y)
-	local direction = target - self.position
+	local direction = target - camera.position
 	local distance = direction:magnitude()
 	if distance < 0.1 then
-		self.position = target
+		camera.position = target
 	else
-		self.position = self.position + direction * (self.followSpeed * dt)
+		camera.position = camera.position + direction * (camera.followSpeed * dt)
 	end
 end
 
 ---Rotates the camera.
 ---@param dr number The amount to rotate the camera by.
-function Camera:rotate(dr)
-	self.rotation = self.rotation + dr
+function camera.rotate(dr)
+	camera.rotation = camera.rotation + dr
 end
 
----Sets the camera transformations.
-function Camera:setCamera()
+---Setups the camera transformations.
+function camera.set()
 	love.graphics.push()
-	love.graphics.scale(self.scale, self.scale)
-	love.graphics.translate(-self.position:getX(), -self.position:getY())
-	love.graphics.rotate(-self.rotation)
+	love.graphics.scale(camera.scale, camera.scale)
+	love.graphics.translate(-camera.position:getX(), -camera.position:getY())
+	love.graphics.rotate(-camera.rotation)
 end
 
 ---Sets the follow speed of the camera.
 ---@param speed number The follow speed of the camera.
-function Camera:setFollowSpeed(speed)
-	self.followSpeed = speed
+function camera.setFollowSpeed(speed)
+	camera.followSpeed = speed
 end
 
 ---Sets the position of the camera.
 ---@param x number The X position of the camera.
 ---@param y number The Y position of the camera.
-function Camera:setPosition(x, y)
-	self.position:setCoordinates(x, y)
+function camera.setPosition(x, y)
+	camera.position:setCoordinates(x, y)
 end
 
 ---Sets the scale of the camera.
 ---@param scale number The scale of the camera.
-function Camera:setScale(scale)
-	self.scale = scale
+function camera.setScale(scale)
+	camera.scale = scale
 end
 
----Resets the camera transformations.
-function Camera:unsetCamera()
+---Finishes the camera transformations.
+function camera.unset()
 	love.graphics.pop()
 end
 

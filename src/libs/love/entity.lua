@@ -41,13 +41,17 @@ Entity.__class = "Entity"
 ---@param x number The X coordinate of the Entity.
 ---@param y number The Y coordinate of the Entity.
 ---@param bodyType love.BodyType The type of the body of the collider of the Entity.
+---@param config? { states: table<string, table<string, function>>, animations: table<string, any[]>, fixtures: table<string, any[]> } The table of the fixtures, animations and states of the Entity.
 ---@return Entity entity A new Entity object.
-function entity.newEntity(world, x, y, bodyType)
+function entity.newEntity(world, x, y, bodyType, config)
+    config = config or {}
+
+
     ---@type Entity
     local self = {
-        stateManager = stateManager.newStateManager(),
-        animationManager = animationManager.newAnimationManager(),
-        collider = physics.newCollider(world, x, y, bodyType),
+        stateManager = stateManager.newStateManager(config.states),
+        animationManager = animationManager.newAnimationManager(config.animations),
+        collider = physics.newCollider(world, x, y, bodyType, config.fixtures),
         behaviors = {},
         variables = {}
     }
@@ -61,13 +65,14 @@ end
 ---@param y number The Y coordinate of the Entity.
 ---@param speed? number The value of the speed variable of the Entity.
 ---@param jumpForce? number The value of the jumpForce variable of the Entity.
+---@param config? { states: table<string, table<string, function>>, animations: table<string, any[]>, fixtures: table<string, any[]> } The table of the fixtures, animations and states of the Entity.
 ---@return Entity entity A new Entity object.
-function entity.newPlatformerEntity(world, x, y, speed, jumpForce)
+function entity.newPlatformerEntity(world, x, y, speed, jumpForce, config)
     speed     = speed or 100
     jumpForce = jumpForce or 300
 
 
-    local self = entity.newEntity(world, x, y, "dynamic")
+    local self = entity.newEntity(world, x, y, "dynamic", config)
     self:addBehavior("platformer")
     self:setVariables({
         ["speed"] = speed,
@@ -78,13 +83,13 @@ end
 
 ---Shorthand function to create a new static Entity.
 ---@param world World The world for the collider of the Entity.
+---@param name string The name of the fixture of the Entity.
 ---@param x number The X coordinate of the Entity.
 ---@param y number The Y coordinate of the Entity.
----@param name string The name of the fixture of the Entity.
 ---@param width number The width of the Entity.
 ---@param height number The height of the Entity.
 ---@return Entity entity A new Entity object.
-function entity.newStaticEntity(world, x, y, name, width, height)
+function entity.newStaticEntity(world, name, x, y, width, height)
     local self = entity.newEntity(world, x, y, "static")
     self:getCollider():addFixture(name, "polygon", false, 0, 0, width, height)
     return self
@@ -159,10 +164,24 @@ function Entity:isByWall()
     return self.collider:isTouching("wall")
 end
 
----Checks if the Entity is on the floor.
----@return boolean isOnFloor True if the Entity is on the floor, false otherwise.
-function Entity:isOnFloor()
+---Checks if the Entity is falling.
+---@return boolean isFalling True if the Entity velocity Y is positive and not on floor, false otherwise.
+function Entity:isFalling()
+    local _, vy = self.collider:getBody():getLinearVelocity()
+    return vy > 0 and not self:isOnGround()
+end
+
+---Checks if the Entity is on the ground.
+---@return boolean isOnGround True if the Entity is on the ground, false otherwise.
+function Entity:isOnGround()
     return self.collider:isTouching("ground")
+end
+
+---Checks if the Entity is moving.
+---@return boolean isMoving True if the velocity x of the Entity is not 0, false otherwise.
+function Entity:isMoving()
+    local vx, _ = self.collider:getBody():getLinearVelocity()
+    return vx ~= 0
 end
 
 ---Jumps a platformer Entity.
@@ -177,8 +196,10 @@ end
 
 ---Moves a Entity according to a behavior.
 ---@param vx number The x velocity of the Entity.
----@param vy number The y velocity of the Entity.
+---@param vy? number The y velocity of the Entity.
 function Entity:move(vx, vy)
+    vy = vy or 0
+
     if table.contains(self.behaviors, "8Directions") then
         assert(self.variables["speed"], "speed variable not set.")
         local speed = self.variables["speed"]
@@ -189,6 +210,12 @@ function Entity:move(vx, vy)
         local _, currentVY = self.collider:getBody():getLinearVelocity()
         local targetVX = vx * self.variables["speed"]
         self.collider:getBody():setLinearVelocity(targetVX, currentVY)
+
+        if vx < 0 then
+            self.animationManager:flipAnimationsHorizontally(true)
+        elseif vx > 0 then
+            self.animationManager:flipAnimationsHorizontally(false)
+        end
     end
 end
 

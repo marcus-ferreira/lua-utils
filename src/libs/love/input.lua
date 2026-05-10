@@ -25,14 +25,15 @@ require("src.libs.lua.table")
 
 --- Library
 ---@class input
-local input = {}
----@type table<string, table<string, string[]>>
-input.actions = {}
----@type table<string, boolean>
-input.pressedKeys = {}
----@type table<love.Joystick, table<string, boolean>>
-input.pressedButtons = {}
-input.gamepadDeadzone = 0.15
+local input = {
+    ---@type table<string, table<string, string[]>>
+    actions         = {},
+    ---@type table<string, boolean>
+    pressedKeys     = {},
+    ---@type table<love.Joystick, table<string, boolean>>
+    pressedButtons  = {},
+    gamepadDeadzone = 0.15
+}
 
 
 --- Methods
@@ -104,6 +105,8 @@ end
 ---@param action string The action to check.
 ---@return boolean isDown True if any key of the action is down, false if otherwise.
 function input.isActionDown(action)
+    assert(input.actions[action], "Action not assigned.")
+
     ---@type love.Joystick
     local joystick = love.joystick.getJoysticks()[1]
     for type, keys in pairs(input.actions[action]) do
@@ -132,6 +135,8 @@ end
 ---@param action string The action to check.
 ---@return boolean isActionPressed True if any key of a given action is pressed, false if otherwise.
 function input.isActionPressed(action)
+    assert(input.actions[action], "Action not assigned.")
+
     ---@type love.Joystick
     local joystick = love.joystick.getJoysticks()[1]
     for type, keys in pairs(input.actions[action]) do

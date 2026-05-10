@@ -73,25 +73,24 @@ end
 
 ---Creates a new Image object.
 ---@param imagePath string The path of the image.
----@param gridParms table<number[]> The table of parms of the grids (tileWidth, tileHeight, columns, rows, left, top, offsetX, offsetY).
+---@param gridParams? table The table of params of the grids (tileWidth, tileHeight, columns, rows, left, top, offsetX, offsetY).
 ---@return ImageManager image The new Image object.
-function imageManager.newImageManager(imagePath, gridParms)
+function imageManager.newImageManager(imagePath, gridParams)
     ---@type ImageManager
     local self = {
         image = love.graphics.newImage(imagePath),
         grids = {}
     }
     setmetatable(self, ImageManager)
-    for _, grid in ipairs(gridParms) do
-        local tileWidth  = grid[1]
-        local tileHeight = grid[2]
-        local columns    = grid[3]
-        local rows       = grid[4]
-        local left       = grid[5]
-        local top        = grid[6]
-        local offsetX    = grid[7]
-        local offsetY    = grid[8]
-        self:addNewGrid(tileWidth, tileHeight, columns, rows, left, top, offsetX, offsetY)
+    if not gridParams then
+        self:addNewGrid(self:getImage():getWidth(), self:getImage():getHeight(), 1, 1)
+    else
+        for _, grid in ipairs(gridParams) do
+            self:addNewGrid(
+                grid.tileWidth, grid.tileHeight, grid.columns, grid.rows,
+                grid.left, grid.top, grid.offsetX, grid.offsetY
+            )
+        end
     end
     return self
 end
@@ -138,6 +137,7 @@ function Grid:addQuad(quad)
 end
 
 ---Gets the quad at the specified index in the grid.
+---@param index number The index of the quad in the grid.
 ---@return love.Quad quad The quad at the specified index.
 function Grid:getQuad(index)
     return self.quads[index]
