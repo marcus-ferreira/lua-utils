@@ -28,6 +28,34 @@ colors = {
 
 
 --- Functions
+---Loads all assets defined in the manifest file.
+function LoadAssets()
+    local manifest = require("src.manifest")
+    assets = { fonts = {}, images = {}, inputs = {}, sounds = {} }
+
+    --- Loads fonts
+    for name, params in pairs(manifest.fonts) do
+        assets.fonts[name] = love.graphics.newFont(params.path, params.size)
+    end
+
+    --- Loads images and create grids
+    for name, params in pairs(manifest.images) do
+        assets.images[name] = imageManager.newImageManager(params.path, params.grids)
+    end
+
+    --- Loads inputs
+    for action, bindings in pairs(manifest.inputs) do
+        assets.inputs[action] = bindings
+    end
+
+    --- Loads sounds
+    for name, path in pairs(manifest.sounds) do
+        -- "static" for short sounds, "stream" for long music files
+        local type = name:sub(1, 3) == "bgm" and "stream" or "static"
+        assets.sounds[name] = love.audio.newSource(path, type)
+    end
+end
+
 ---Resizes the window given a scale factor.
 ---@param scale number The scale factor (-1 for fullscreen).
 function ResizeWindow(scale)
