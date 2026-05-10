@@ -1,8 +1,5 @@
---- Constants
 VIRTUAL_WIDTH  = 400 -- Internal game width size
 VIRTUAL_HEIGHT = 300 -- Internal game height size
-
-Scale          = 1   -- Scale of the window dimension
 
 
 ---@enum Colors
@@ -32,14 +29,13 @@ colors = {
 
 --- Functions
 ---Resizes the window given a scale factor.
----@param scale number The scale factor.
+---@param scale number The scale factor (-1 for fullscreen).
 function ResizeWindow(scale)
-    Scale = scale
     if scale == -1 then
         love.window.setMode(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, { fullscreen = true, fullscreentype = "desktop" })
     else
-        love.window.setMode(VIRTUAL_WIDTH * Scale, VIRTUAL_HEIGHT * Scale)
+        love.window.setMode(VIRTUAL_WIDTH * scale, VIRTUAL_HEIGHT * scale)
     end
-    Scale = math.floor(love.graphics.getWidth() / VIRTUAL_WIDTH)
-    camera.setScale(Scale)
+    scale = math.floor(love.graphics.getWidth() / VIRTUAL_WIDTH)
+    camera.setScale(scale)
 end
