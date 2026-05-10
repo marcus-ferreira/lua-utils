@@ -1,63 +1,68 @@
 # Love2D Template
 
 ## Description
-This is a basic template to start new projects with [Love2D](https://love2d.org/), a framework for game development in Lua. It provides an organized structure for code, assets, and libraries, making 2D game development faster and easier.
+This repository is a Love2D starter template for 2D games in Lua. It provides a minimal game loop, tilemap support, entity and animation helpers, camera control, and a clean project structure for organizing assets, scenes, and libraries.
 
 ## How to Use
-1. **Clone or use as template**: Clone this repository or use it as a template on GitHub to create a new project.
-2. **Rename the project**: Update the repository name and modify files like `conf.lua` to match your game title.
-3. **Install Love2D**: Make sure Love2D is installed on your system. Download it from [love2d.org](https://love2d.org/).
-4. **Run the project**: Open a terminal in the project folder and run `love .`.
-5. **Develop**: Add your assets in `assets/`, game entities in `src/entities/`, and use utility libraries from `src/libs/`.
+1. **Clone or use as a template**: Clone this repository or use it as a template on GitHub.
+2. **Update project settings**: Edit `conf.lua` to set your game title, window size, and version.
+3. **Install Love2D**: Install Love2D on your system from [love2d.org](https://love2d.org/).
+4. **Run the game**: Open a terminal in the project folder and run `love .`.
+5. **Develop**: Add assets in `assets/`, scenes under `src/scenes/`, and game logic in `src/libs/` and `src/entities/`.
 
 ## Project Structure
 ```
 love-template/
 ├── conf.lua              # Love2D configuration (title, version, etc.)
-├── main.lua              # Main game entry point
-├── dependencies.lua      # Dependency loader / library imports
-├── README.md             # This file
+├── dependencies.lua      # Loads libraries and helper modules
+├── main.lua              # Main game entry point and Love callbacks
+├── README.md             # Project documentation
 ├── assets/               # Game assets
-│   ├── fonts/            # Fonts
-│   ├── images/           # Images
-│   └── sounds/           # Sounds and music
+│   ├── fonts/            # Font files
+│   ├── images/           # Image files and sprite sheets
+│   ├── sounds/           # Sound effects and music
+│   └── tiled/            # Tiled editor files and tilesets
 └── src/
-    ├── entities/         # Game entities (player, enemies, objects)
-    └── libs/
-        ├── love/         # Love2D-specific helper libraries
-        │   ├── animation.lua
-        │   ├── camera.lua
-        │   ├── collision.lua
-        │   ├── color.lua
-        │   ├── data.lua
-        │   ├── physics.lua
-        │   ├── state.lua
-        │   ├── timer.lua
-        │   └── vector.lua
-        └── lua/          # General Lua utility libraries
-            ├── math.lua
-            ├── string.lua
-            └── table.lua
+    ├── assets.lua        # Asset manifest
+    ├── globals.lua       # Global constants and settings
+    ├── entities/         # Game entities (player, objects, etc.)
+    ├── libs/             # Utility libraries
+    │   ├── love/         # Love2D-specific helper modules
+    │   │   ├── animationManager.lua
+    │   │   ├── camera.lua
+    │   │   ├── color.lua
+    │   │   ├── data.lua
+    │   │   ├── debug.lua
+    │   │   ├── entity.lua
+    │   │   ├── imageManager.lua
+    │   │   ├── input.lua
+    │   │   ├── physics.lua
+    │   │   ├── stateManager.lua
+    │   │   ├── tilemap.lua
+    │   │   ├── timer.lua
+    │   │   └── vector.lua
+    │   └── lua/          # General Lua utility modules
+    │       ├── math.lua
+    │       ├── string.lua
+    │       ├── table.lua
+    │       └── utils.lua
+    └── scenes/           # Scene definitions and map logic
+        ├── map.lua
+        └── place-the-scenes-here.txt
 ```
 
-## Included Libraries
-This template includes useful libraries for game development:
-- **animation.lua**: Animation management.
-- **camera.lua**: Camera control.
-- **collision.lua**: Collision detection.
-- **color.lua**: Color manipulation.
-- **data.lua**: Data storage and retrieval.
-- **physics.lua**: Physics helpers.
-- **state.lua**: Game state management.
-- **timer.lua**: Timer utilities.
-- **vector.lua**: 2D vector math.
-- General Lua utilities in `src/libs/lua/`.
+## Included Features
+- `main.lua` with Love2D lifecycle callbacks and camera handling.
+- Tilemap loading with `src/libs/love/tilemap.lua` using Tiled-exported `.lua` maps.
+- Entity system with animation and state support.
+- Input mapping helpers and physics/collider helpers.
+- Utility libraries for vectors, colors, tables, strings, and math.
 
 ## Dependencies
 - [Love2D](https://love2d.org/) (recommended version: 11.x or higher)
 
 ## Contribution
-This template is ready for personal use, but contributions are welcome. To contribute:
+Contributions are welcome. To contribute:
 1. Fork the repository.
 2. Create a branch for your change (`git checkout -b my-improvement`).
 3. Commit your changes (`git commit -am 'Add new feature'`).
