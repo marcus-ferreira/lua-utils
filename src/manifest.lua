@@ -18,33 +18,33 @@ return {
         }
     },
     inputs = {
-        ["up"]     = {
+        ["uiUp"]     = {
             keys    = { "up", "w" },
             buttons = { "dpup" },
             axes    = { "lefty-" }
         },
-        ["down"]   = {
+        ["uiDown"]   = {
             keys    = { "down", "s" },
             buttons = { "dpdown" },
             axes    = { "lefty+" }
         },
-        ["left"]   = {
+        ["uiLeft"]   = {
             keys    = { "left", "a" },
             buttons = { "dpleft" },
             axes    = { "leftx-" }
         },
-        ["right"]  = {
+        ["uiRight"]  = {
             keys    = { "right", "d" },
             buttons = { "dpright" },
             axes    = { "leftx+" }
         },
-        ["attack"] = {
-            keys    = { "space" },
-            buttons = { "x" }
-        },
-        ["jump"]   = {
-            keys    = { "up", "w" },
+        ["uiAccept"] = {
+            keys    = { "return", "space" },
             buttons = { "a" }
+        },
+        ["uiCancel"] = {
+            keys    = { "escape" },
+            buttons = { "b" }
         }
     },
     sounds = {}
